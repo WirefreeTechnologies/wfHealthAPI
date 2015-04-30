@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="wfhealthdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AdminUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar(max)" />
+    <Property Name="Password" Type="varchar(max)" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="AccessIP" Type="varchar" MaxLength="100" />
+    <Property Name="Name" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Appointments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppointmentDate" Type="datetime" />
+    <Property Name="TimeFrom" Type="varchar" MaxLength="50" />
+    <Property Name="TimeTo" Type="varchar" MaxLength="50" />
+    <Property Name="AppointmentReason" Type="varchar(max)" />
+    <Property Name="IsApprovedByDoc" Type="bit" />
+    <Property Name="IsCancelledByPat" Type="bit" />
+    <Property Name="IsMeetingHeld" Type="bit" />
+    <Property Name="AppointmentCreatedOn" Type="datetime" />
+    <Property Name="DoctorRemarks" Type="varchar(max)" />
+    <Property Name="PatientRemarks" Type="varchar(max)" />
+    <Property Name="DoctorId" Type="int" />
+    <Property Name="PatientId" Type="int" />
+  </EntityType>
+  <EntityType Name="Feedbacks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PatiendId" Type="int" />
+    <Property Name="DoctorId" Type="int" />
+    <Property Name="Feedback" Type="varchar(max)" />
+    <Property Name="FeedbackGivenOn" Type="datetime" />
+    <Property Name="IsApprovedByDoctor" Type="bit" />
+    <Property Name="Rating" Type="int" />
+  </EntityType>
+  <EntityType Name="HospitalsMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospName" Type="varchar(max)" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="ImagePath" Type="varchar(max)" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="City" Type="varchar(max)" />
+    <Property Name="Province" Type="varchar(max)" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="50" />
+    <Property Name="Lati" Type="varchar" MaxLength="50" />
+    <Property Name="Longi" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ReferralsSentByPatients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DoctorId" Type="int" />
+    <Property Name="PatientId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="eMail" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" />
+    <Property Name="IsAcceptedByDoctor" Type="bit" />
+    <Property Name="PatientComments" Type="varchar(max)" />
+    <Property Name="DoctorRemarks" Type="varchar(max)" />
+    <Property Name="ReferredOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="RoleMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="varchar(max)" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="RoleDescription" Type="varchar(max)" />
+    <Property Name="ModifiedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UsersInHospitals">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospitalId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="UsersMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar(max)" />
+    <Property Name="Password" Type="varchar(max)" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="Province" Type="varchar" MaxLength="50" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="50" />
+    <Property Name="UserType" Type="varchar" MaxLength="10" />
+    <Property Name="DeviceType" Type="varchar" MaxLength="10" />
+    <Property Name="NotificationToken" Type="varchar(max)" />
+    <Property Name="Lati" Type="varchar" MaxLength="50" />
+    <Property Name="Longi" Type="varchar" MaxLength="50" />
+    <Property Name="eMail" Type="varbinary" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="ImagePath" Type="varchar(max)" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="AccessToken" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_AdminUsers_RoleMaster">
+    <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="0..1" />
+    <End Role="AdminUsers" Type="Self.AdminUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoleMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdminUsers">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appointments_UsersMaster">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointments">
+        <PropertyRef Name="DoctorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appointments_UsersMaster1">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointments">
+        <PropertyRef Name="PatientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Feedbacks_UsersMaster">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="Feedbacks" Type="Self.Feedbacks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Feedbacks">
+        <PropertyRef Name="DoctorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Feedbacks_UsersMaster1">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="Feedbacks" Type="Self.Feedbacks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Feedbacks">
+        <PropertyRef Name="PatiendId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HospitalsMaster_AdminUsers">
+    <End Role="AdminUsers" Type="Self.AdminUsers" Multiplicity="0..1" />
+    <End Role="HospitalsMaster" Type="Self.HospitalsMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AdminUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HospitalsMaster">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReferralsSentByPatients_UsersMaster">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="ReferralsSentByPatients" Type="Self.ReferralsSentByPatients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReferralsSentByPatients">
+        <PropertyRef Name="DoctorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReferralsSentByPatients_UsersMaster1">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="ReferralsSentByPatients" Type="Self.ReferralsSentByPatients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReferralsSentByPatients">
+        <PropertyRef Name="PatientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersInHospitals_HospitalsMaster">
+    <End Role="HospitalsMaster" Type="Self.HospitalsMaster" Multiplicity="0..1" />
+    <End Role="UsersInHospitals" Type="Self.UsersInHospitals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalsMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersInHospitals">
+        <PropertyRef Name="HospitalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersInHospitals_UsersMaster">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="UsersInHospitals" Type="Self.UsersInHospitals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersInHospitals">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersMaster_UsersMaster">
+    <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+    <End Role="UsersMaster1" Type="Self.UsersMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersMaster1">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="wfhealthdbModelStoreContainer">
+    <EntitySet Name="AdminUsers" EntityType="Self.AdminUsers" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="Feedbacks" EntityType="Self.Feedbacks" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="HospitalsMaster" EntityType="Self.HospitalsMaster" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="ReferralsSentByPatients" EntityType="Self.ReferralsSentByPatients" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="UsersInHospitals" EntityType="Self.UsersInHospitals" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="UsersMaster" EntityType="Self.UsersMaster" Schema="wfhealth" store:Type="Tables" />
+    <AssociationSet Name="FK_AdminUsers_RoleMaster" Association="Self.FK_AdminUsers_RoleMaster">
+      <End Role="RoleMaster" EntitySet="RoleMaster" />
+      <End Role="AdminUsers" EntitySet="AdminUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appointments_UsersMaster" Association="Self.FK_Appointments_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="Appointments" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appointments_UsersMaster1" Association="Self.FK_Appointments_UsersMaster1">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="Appointments" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Feedbacks_UsersMaster" Association="Self.FK_Feedbacks_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="Feedbacks" EntitySet="Feedbacks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Feedbacks_UsersMaster1" Association="Self.FK_Feedbacks_UsersMaster1">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="Feedbacks" EntitySet="Feedbacks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HospitalsMaster_AdminUsers" Association="Self.FK_HospitalsMaster_AdminUsers">
+      <End Role="AdminUsers" EntitySet="AdminUsers" />
+      <End Role="HospitalsMaster" EntitySet="HospitalsMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReferralsSentByPatients_UsersMaster" Association="Self.FK_ReferralsSentByPatients_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="ReferralsSentByPatients" EntitySet="ReferralsSentByPatients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReferralsSentByPatients_UsersMaster1" Association="Self.FK_ReferralsSentByPatients_UsersMaster1">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="ReferralsSentByPatients" EntitySet="ReferralsSentByPatients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersInHospitals_HospitalsMaster" Association="Self.FK_UsersInHospitals_HospitalsMaster">
+      <End Role="HospitalsMaster" EntitySet="HospitalsMaster" />
+      <End Role="UsersInHospitals" EntitySet="UsersInHospitals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersInHospitals_UsersMaster" Association="Self.FK_UsersInHospitals_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="UsersInHospitals" EntitySet="UsersInHospitals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersMaster_UsersMaster" Association="Self.FK_UsersMaster_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMaster" />
+      <End Role="UsersMaster1" EntitySet="UsersMaster" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
