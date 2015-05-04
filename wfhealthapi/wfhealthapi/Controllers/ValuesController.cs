@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace wfhealthapi.Controllers
 {
-    
     public class ValuesController : ApiController
     {
         // GET api/values

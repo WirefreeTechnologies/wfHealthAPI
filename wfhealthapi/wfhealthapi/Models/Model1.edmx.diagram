@@ -4,24 +4,47 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b95e26917bf744929ea4c8d0588c48e1" Name="Diagram1">
-        <EntityTypeShape EntityType="wfhealthdbModel.AdminUser" Width="1.5" PointX="1.5" PointY="17.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.Appointment" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.Feedback" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.HospitalsMaster" Width="1.5" PointX="3.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.ReferralsSentByPatient" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.RoleMaster" Width="1.5" PointX="1.5" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.UsersInHospital" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="wfhealthdbModel.UsersMaster" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <AssociationConnector Association="wfhealthdbModel.FK_AdminUsers_RoleMaster" ManuallyRouted="false" />
-        <AssociationConnector Association="wfhealthdbModel.FK_HospitalsMaster_AdminUsers" ManuallyRouted="false" />
+      <Diagram DiagramId="fb1bfca5db4b43a29db90015f862c4c8" Name="Diagram1">
+        <EntityTypeShape EntityType="wfhealthdbModel.Appointment" Width="1.5" PointX="7.5" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.DoctorTiming" Width="1.5" PointX="5.25" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.Feedback" Width="1.5" PointX="10.5" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.HospitalsMaster" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.PrescriptionAttachment" Width="1.5" PointX="12.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.Prescription" Width="1.5" PointX="12.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.ReferralsSentByDoctor" Width="1.5" PointX="12.75" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.ReferralsSentByPatient" Width="1.5" PointX="10.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.RoleMaster" Width="1.5" PointX="0.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.SuperAdminUser" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.UsersInHospital" Width="1.5" PointX="10.5" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="wfhealthdbModel.UsersMaster" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Appointments_HospitalsMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_Appointments_UsersMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_Appointments_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_PrescriptionAttachments_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Prescriptions_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByDoctors_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_DoctorTimings_UsersMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Feedbacks_HospitalsMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_Feedbacks_UsersMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_Feedbacks_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_HospitalsMaster_SuperAdminUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_PrescriptionAttachments_HospitalsMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Prescriptions_HospitalsMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByDoctors_HospitalsMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByPatients_HospitalsMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersInHospitals_HospitalsMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_PrescriptionAttachments_Prescriptions" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_PrescriptionAttachments_UsersMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_PrescriptionAttachments_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Prescriptions_UsersMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_Prescriptions_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByDoctors_UsersMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByDoctors_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByDoctors_UsersMaster2" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByPatients_UsersMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_ReferralsSentByPatients_UsersMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_SuperAdminUsers_RoleMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="wfhealthdbModel.FK_UsersMaster_RoleMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersInHospitals_UsersMaster" ManuallyRouted="false" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersMaster_UsersMaster" ManuallyRouted="false" />
       </Diagram>

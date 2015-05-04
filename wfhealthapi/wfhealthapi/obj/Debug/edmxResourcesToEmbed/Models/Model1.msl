@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="wfhealthdbModelStoreContainer" CdmEntityContainer="wfhealthdbEntities">
+    <EntitySetMapping Name="Appointments">
+      <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
+        <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+          <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
+          <ScalarProperty Name="TimeTo" ColumnName="TimeTo" />
+          <ScalarProperty Name="AptReason" ColumnName="AptReason" />
+          <ScalarProperty Name="IsApprovedByDoc" ColumnName="IsApprovedByDoc" />
+          <ScalarProperty Name="IsCancelledByPat" ColumnName="IsCancelledByPat" />
+          <ScalarProperty Name="IsMeetingHeld" ColumnName="IsMeetingHeld" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="DoctorRemarks" ColumnName="DoctorRemarks" />
+          <ScalarProperty Name="PatientRemarks" ColumnName="PatientRemarks" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorTimings">
+      <EntityTypeMapping TypeName="wfhealthdbModel.DoctorTiming">
+        <MappingFragment StoreEntitySet="DoctorTimings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Weekday" ColumnName="Weekday" />
+          <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
+          <ScalarProperty Name="TimeTo" ColumnName="TimeTo" />
+          <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feedbacks">
+      <EntityTypeMapping TypeName="wfhealthdbModel.Feedback">
+        <MappingFragment StoreEntitySet="Feedbacks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="FeedbackBy" ColumnName="FeedbackBy" />
+          <ScalarProperty Name="FeedbackGivenOn" ColumnName="FeedbackGivenOn" />
+          <ScalarProperty Name="FeedbackApprovedOn" ColumnName="FeedbackApprovedOn" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="CommentsGiven" ColumnName="CommentsGiven" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HospitalsMasters">
+      <EntityTypeMapping TypeName="wfhealthdbModel.HospitalsMaster">
+        <MappingFragment StoreEntitySet="HospitalsMaster">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HospName" ColumnName="HospName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          <ScalarProperty Name="CreatedBy_Super_Admin" ColumnName="CreatedBy_Super_Admin" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="Lati" ColumnName="Lati" />
+          <ScalarProperty Name="Longi" ColumnName="Longi" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PrescriptionAttachments">
+      <EntityTypeMapping TypeName="wfhealthdbModel.PrescriptionAttachment">
+        <MappingFragment StoreEntitySet="PrescriptionAttachments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="Appointment_Id" ColumnName="Appointment_Id" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Docsummary" ColumnName="Docsummary" />
+          <ScalarProperty Name="Prescription_Id" ColumnName="Prescription_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prescriptions">
+      <EntityTypeMapping TypeName="wfhealthdbModel.Prescription">
+        <MappingFragment StoreEntitySet="Prescriptions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Appointment_Id" ColumnName="Appointment_Id" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="PrescriptionText" ColumnName="PrescriptionText" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="IsArchivedByDoc" ColumnName="IsArchivedByDoc" />
+          <ScalarProperty Name="IsArchivedByPat" ColumnName="IsArchivedByPat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReferralsSentByDoctors">
+      <EntityTypeMapping TypeName="wfhealthdbModel.ReferralsSentByDoctor">
+        <MappingFragment StoreEntitySet="ReferralsSentByDoctors">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SenderDoctor_Id" ColumnName="SenderDoctor_Id" />
+          <ScalarProperty Name="RecepientDoctor_Id" ColumnName="RecepientDoctor_Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="Appointment_Id" ColumnName="Appointment_Id" />
+          <ScalarProperty Name="SentOn" ColumnName="SentOn" />
+          <ScalarProperty Name="CommentsOfSender" ColumnName="CommentsOfSender" />
+          <ScalarProperty Name="IsApprovedByRecepient" ColumnName="IsApprovedByRecepient" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReferralsSentByPatients">
+      <EntityTypeMapping TypeName="wfhealthdbModel.ReferralsSentByPatient">
+        <MappingFragment StoreEntitySet="ReferralsSentByPatients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Doctor_Id" ColumnName="Doctor_Id" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
+          <ScalarProperty Name="IsAcceptedByDoc" ColumnName="IsAcceptedByDoc" />
+          <ScalarProperty Name="PatientComments" ColumnName="PatientComments" />
+          <ScalarProperty Name="DoctorComments" ColumnName="DoctorComments" />
+          <ScalarProperty Name="ReferredOn" ColumnName="ReferredOn" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoleMasters">
+      <EntityTypeMapping TypeName="wfhealthdbModel.RoleMaster">
+        <MappingFragment StoreEntitySet="RoleMaster">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+          <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SuperAdminUsers">
+      <EntityTypeMapping TypeName="wfhealthdbModel.SuperAdminUser">
+        <MappingFragment StoreEntitySet="SuperAdminUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          <ScalarProperty Name="LastSeenOn" ColumnName="LastSeenOn" />
+          <ScalarProperty Name="LastAccessIp" ColumnName="LastAccessIp" />
+          <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersInHospitals">
+      <EntityTypeMapping TypeName="wfhealthdbModel.UsersInHospital">
+        <MappingFragment StoreEntitySet="UsersInHospitals">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersMasters">
+      <EntityTypeMapping TypeName="wfhealthdbModel.UsersMaster">
+        <MappingFragment StoreEntitySet="UsersMaster">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+          <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+          <ScalarProperty Name="NotificationToken" ColumnName="NotificationToken" />
+          <ScalarProperty Name="Lati" ColumnName="Lati" />
+          <ScalarProperty Name="Longi" ColumnName="Longi" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
