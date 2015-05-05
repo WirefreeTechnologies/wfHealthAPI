@@ -15,7 +15,7 @@ namespace wfhealthapi.Classes
         {
             EncryptDecrypt obj = new EncryptDecrypt();
             string s = ut.GetRandomToken();
-            string TokenString = obj.Encrypt(s + DateTime.Now.ToShortDateString(), true);
+            string TokenString = obj.Encrypt(s + DateTime.Now.ToShortDateString());
             return TokenString;
         }
 

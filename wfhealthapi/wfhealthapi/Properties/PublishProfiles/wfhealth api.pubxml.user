@@ -10,73 +10,73 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
-      <publishTime>04/30/2015 12:16:05</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/Api.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ApiGroup.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/CollectionModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ComplexTypeModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/DictionaryModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/EnumTypeModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/HelpPageApiModel.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ImageSample.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/InvalidSample.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/KeyValuePairModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ModelDescriptionLink.cshtml">
-      <publishTime>04/30/2015 12:16:04</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Parameters.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Samples.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/SimpleTypeModelDescription.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/TextSample.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/Index.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Help/ResourceModel.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Shared/_Layout.cshtml">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/Web.config">
-      <publishTime>04/30/2015 12:16:03</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Areas/HelpPage/Views/_ViewStart.cshtml">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>04/30/2015 12:16:06</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>04/30/2015 12:16:08</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
       <publishTime>04/30/2015 12:16:08</publishTime>
@@ -121,10 +121,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/30/2015 12:16:14</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>04/30/2015 12:15:52</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>04/30/2015 12:16:12</publishTime>
@@ -141,6 +141,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/System.Data.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
+    <File Include="bin/System.Data.Entity.dll">
+      <publishTime>09/26/2012 03:16:08</publishTime>
+    </File>
     <File Include="bin/System.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
@@ -151,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>04/30/2015 12:16:01</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/System.Net.Http.WebRequest.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
@@ -175,37 +178,37 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
-      <publishTime>04/30/2015 12:15:59</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>04/30/2015 12:16:01</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Web.Http.Owin.dll">
       <publishTime>04/30/2015 12:16:14</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>04/30/2015 12:16:01</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>04/30/2015 12:15:59</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
-      <publishTime>04/30/2015 12:15:58</publishTime>
+      <publishTime>05/05/2015 13:16:44</publishTime>
     </File>
     <File Include="bin/System.Web.Routing.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Deployment.dll">
-      <publishTime>04/30/2015 12:15:59</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.dll">
-      <publishTime>04/30/2015 12:15:59</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Razor.dll">
-      <publishTime>04/30/2015 12:15:59</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/System.Xml.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
@@ -214,58 +217,61 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2012 03:16:08</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
-      <publishTime>04/30/2015 12:16:07</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/wfhealthapi.dll">
-      <publishTime>04/30/2015 12:28:27</publishTime>
+      <publishTime>05/05/2015 14:53:40</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>04/30/2015 12:15:50</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
-      <publishTime>04/30/2015 12:15:50</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
+    </File>
+    <File Include="EncDec.aspx">
+      <publishTime>05/05/2015 14:36:59</publishTime>
     </File>
     <File Include="favicon.ico">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
-      <publishTime>04/30/2015 12:15:50</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.svg">
-      <publishTime>04/30/2015 12:15:50</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.ttf">
-      <publishTime>04/30/2015 12:15:49</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.woff">
-      <publishTime>04/30/2015 12:15:47</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Models/Model1.edmx.diagram">
-      <publishTime>04/30/2015 12:18:36</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>04/30/2015 12:16:15</publishTime>
+      <publishTime>05/05/2015 13:16:46</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
-      <publishTime>04/30/2015 12:15:47</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
-      <publishTime>04/30/2015 12:15:46</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
-      <publishTime>04/30/2015 12:15:56</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.min.js">
-      <publishTime>04/30/2015 12:15:55</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.min.map">
-      <publishTime>04/30/2015 12:15:55</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>04/30/2015 12:16:14</publishTime>
@@ -280,34 +286,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/30/2015 12:16:15</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
-      <publishTime>04/30/2015 12:16:06</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/respond.js">
-      <publishTime>04/30/2015 12:16:07</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/respond.min.js">
-      <publishTime>04/30/2015 12:16:07</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>04/30/2015 12:16:06</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>04/30/2015 12:15:33</publishTime>
+      <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/30/2015 12:19:57</publishTime>
+      <publishTime>05/05/2015 14:53:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

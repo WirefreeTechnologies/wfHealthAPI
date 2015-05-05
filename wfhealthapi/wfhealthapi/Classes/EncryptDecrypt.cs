@@ -9,8 +9,9 @@ namespace wfhealthapi.Classes
 {
     public class EncryptDecrypt
     {
-        public string Encrypt(string ToEncrypt, bool useHasing)
+        public string Encrypt(string ToEncrypt)
         {
+            bool useHasing = true;
             byte[] keyArray;
             byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(ToEncrypt);
 
@@ -35,8 +36,9 @@ namespace wfhealthapi.Classes
             return Convert.ToBase64String(resultArray, 0, resultArray.Length);
         }
 
-        public string Decrypt(string cypherString, bool useHasing)
+        public string Decrypt(string cypherString)
         {
+            bool useHasing = true;
             byte[] keyArray;
             byte[] toDecryptArray = Convert.FromBase64String(cypherString.Replace(' ', '+'));
 
