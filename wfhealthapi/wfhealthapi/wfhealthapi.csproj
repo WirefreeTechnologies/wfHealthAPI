@@ -193,6 +193,7 @@
     <Compile Include="Classes\EncryptDecrypt.cs" />
     <Compile Include="Classes\Input Modals\LoginInputClass.cs" />
     <Compile Include="Classes\Input Modals\UserDeviceModel.cs" />
+    <Compile Include="Classes\Output Modals\DoctorAppointmentsResultClass.cs" />
     <Compile Include="Classes\Output Modals\LoginResultClass.cs" />
     <Compile Include="Classes\TokenAuthorization.cs" />
     <Compile Include="Classes\Utility.cs" />

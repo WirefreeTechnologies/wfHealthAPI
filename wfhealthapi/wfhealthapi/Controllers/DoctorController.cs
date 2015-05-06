@@ -124,6 +124,6 @@ namespace wfhealthapi.Controllers
         }
 
         // to get current week appointments of doctor
-
+        
     }
 }
