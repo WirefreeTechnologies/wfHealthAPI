@@ -56,7 +56,7 @@ namespace wfhealthapi.Controllers
                                 var UserRecord =
                                     (from c in obj.UsersMasters
                                      where
-                                         c.UserName == encUsername && c.Password == encPassword &&
+                                         c.UserName == encUsername && c.Password == encPassword && c.Role_Id==2 &&
                                          c.IsActive == true
                                      select c).SingleOrDefault();
 
@@ -68,13 +68,13 @@ namespace wfhealthapi.Controllers
                                     var hospRecord =
                                         (from c in obj.UsersInHospitals
                                          where
-                                             c.Hospital_Id == hospId && c.User_Id == UserRecord.Id &&
+                                             c.Hospital_Id == hospId && c.User_Id == UserRecord.Id && 
                                              c.IsActive == true
                                          select c).SingleOrDefault();
                                     if (hospRecord != null)
                                     {
                                         // valid user, setting device type, token and other stuff
-                                        DateTime currentTime = DateTime.Now;
+                                        DateTime currentTime = DateTime.UtcNow;
                                         UserRecord.LastSeenOn = currentTime;
                                         UserRecord.DeviceType = User.DeviceType.Trim();
                                         UserRecord.NotificationToken = User.NotificationToken.Trim();
@@ -122,5 +122,8 @@ namespace wfhealthapi.Controllers
                 return lr;
             }
         }
+
+        // to get current week appointments of doctor
+
     }
 }
