@@ -9,6 +9,10 @@ namespace wfhealthapi.Classes.Input_Modals
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string Hospital_Id { get; set; }
+        public string DeviceType { get; set; }
+
+        public string NotificationToken { get; set; }
         
     }
 }
