@@ -186,6 +186,7 @@
     <Property Name="ImagePath" Type="varchar" MaxLength="50" />
     <Property Name="DOB" Type="varchar" MaxLength="50" />
     <Property Name="AccessToken" Type="varchar(max)" />
+    <Property Name="LastSeenOn" Type="datetime" />
   </EntityType>
   <Association Name="FK_Appointments_HospitalsMaster">
     <End Role="HospitalsMaster" Type="Self.HospitalsMaster" Multiplicity="0..1" />

@@ -37,10 +37,10 @@ namespace wfhealthapi.Models
         public Nullable<int> Hospital_Id { get; set; }
     
         public virtual HospitalsMaster HospitalsMaster { get; set; }
-        public virtual UsersMaster UsersMaster { get; set; }
-        public virtual UsersMaster UsersMaster1 { get; set; }
         public virtual ICollection<PrescriptionAttachment> PrescriptionAttachments { get; set; }
         public virtual ICollection<Prescription> Prescriptions { get; set; }
         public virtual ICollection<ReferralsSentByDoctor> ReferralsSentByDoctors { get; set; }
+        public virtual UsersMaster UsersMaster { get; set; }
+        public virtual UsersMaster UsersMaster1 { get; set; }
     }
 }

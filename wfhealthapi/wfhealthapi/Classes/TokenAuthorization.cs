@@ -38,7 +38,7 @@ namespace wfhealthapi.Classes
                     re.IsTokenValid = true;
                     
 
-                    DateTime currentTime = DateTime.UtcNow;
+                    DateTime currentTime = DateTime.Now;
 
                     r.Lati = Lati;
                     r.Longi = Longi;

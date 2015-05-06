@@ -74,7 +74,7 @@ namespace wfhealthapi.Controllers
                                     if (hospRecord != null)
                                     {
                                         // valid user, setting device type, token and other stuff
-                                        DateTime currentTime = DateTime.UtcNow;
+                                        DateTime currentTime = DateTime.Now;
                                         UserRecord.LastSeenOn = currentTime;
                                         UserRecord.DeviceType = User.DeviceType.Trim();
                                         UserRecord.NotificationToken = User.NotificationToken.Trim();
