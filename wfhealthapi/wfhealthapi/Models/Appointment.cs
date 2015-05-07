@@ -35,6 +35,7 @@ namespace wfhealthapi.Models
         public Nullable<int> Doctor_Id { get; set; }
         public Nullable<int> Patient_Id { get; set; }
         public Nullable<int> Hospital_Id { get; set; }
+        public string AptType { get; set; }
     
         public virtual HospitalsMaster HospitalsMaster { get; set; }
         public virtual ICollection<PrescriptionAttachment> PrescriptionAttachments { get; set; }

@@ -15,6 +15,7 @@ namespace wfhealthapi.Controllers
     public class DoctorController : ApiController
     {
         EncryptDecrypt encDec = new EncryptDecrypt();
+        TokenAuthorization TokAuth = new TokenAuthorization();
         [HttpPost]
         [ActionName("Login")]
         public LoginResultClass Login(LoginInputClass User)
@@ -124,6 +125,96 @@ namespace wfhealthapi.Controllers
         }
 
         // to get current week appointments of doctor
-        
+        [HttpPost]
+        [ActionName("GetAppointments")]
+        public DoctorAppointmentsResultClass GetAppointments(GetAppointmentInputModel aptmnt)
+        {
+
+            DoctorAppointmentsResultClass res = new DoctorAppointmentsResultClass();
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid==true)
+                {
+                    // getting appointments of docotr in given 
+                    // checking if user is doctor and valid in given hospital
+                    using(wfhealthdbEntities obj = new wfhealthdbEntities())
+                    {
+                        var userResult =
+                            (from c in obj.UsersMasters where c.Id == aptmnt.UserId && c.Role_Id == 2 && c.IsActive==true select c)
+                                .SingleOrDefault();
+                        if (userResult!=null)
+                        {
+                            // checking if given doctor is active in given hospital
+                            var userInHospcheck = (from d in obj.UsersInHospitals
+                                where
+                                    d.User_Id == aptmnt.UserId && d.Hospital_Id == aptmnt.HospitalId &&
+                                    d.IsActive == true
+                                select d).SingleOrDefault();
+                            if (userInHospcheck != null)
+                            {
+                                
+                                // getting all appointments of doctor
+                                var allaptDates = (from r in obj.Appointments
+                                    where
+                                        r.Doctor_Id == aptmnt.UserId && r.Hospital_Id == aptmnt.HospitalId &&
+                                        (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
+                                        (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
+                                    select r.AppointmentDate).Distinct().ToList();
+
+                                foreach (DateTime? aptDate in allaptDates)
+                                {
+                                    var allaptmntsOnDate = (from r in obj.Appointments
+                                        where
+                                            r.AppointmentDate == aptDate && r.Doctor_Id == aptmnt.UserId &&
+                                            r.Hospital_Id == aptmnt.HospitalId &&
+                                            (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
+                                            (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
+                                        select r).ToList();
+
+                                    foreach (Appointment VARIABLE in allaptmntsOnDate)
+                                    {
+                                        
+                                    }
+
+
+                                }
+
+
+                            }
+                            else
+                            {
+                                res.ErrMessage = "Given user is not associated with Given hospital.";
+                                res.IsSuccess = false;
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            res.ErrMessage = "Given user is not a Doctor.";
+                            res.IsSuccess = false;
+                            
+                        }
+                    }
+
+
+                }
+
+                return res;
+            }
+            catch
+            {
+                res.ErrMessage = "Error occurred at server.";
+                res.IsSuccess = false;
+                return res;
+            }
+
+            
+        }
     }
 }

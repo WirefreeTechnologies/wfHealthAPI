@@ -23,6 +23,7 @@
           <Property Name="Doctor_Id" Type="int" />
           <Property Name="Patient_Id" Type="int" />
           <Property Name="Hospital_Id" Type="int" />
+          <Property Name="AptType" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="DoctorTimings">
           <Key>
@@ -715,6 +716,7 @@
           <NavigationProperty Name="ReferralsSentByDoctors" Relationship="Self.FK_ReferralsSentByDoctors_Appointments" FromRole="Appointments" ToRole="ReferralsSentByDoctors" />
           <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_Appointments_UsersMaster" FromRole="Appointment" ToRole="UsersMaster" />
           <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_Appointments_UsersMaster1" FromRole="Appointment" ToRole="UsersMaster" />
+          <Property Name="AptType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DoctorTiming">
           <Key>
@@ -1442,6 +1444,7 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
               <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="AptType" ColumnName="AptType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
                 <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
