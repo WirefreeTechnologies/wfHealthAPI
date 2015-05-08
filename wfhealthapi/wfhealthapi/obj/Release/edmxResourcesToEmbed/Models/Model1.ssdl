@@ -18,6 +18,7 @@
     <Property Name="Doctor_Id" Type="int" />
     <Property Name="Patient_Id" Type="int" />
     <Property Name="Hospital_Id" Type="int" />
+    <Property Name="AptType" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="DoctorTimings">
     <Key>

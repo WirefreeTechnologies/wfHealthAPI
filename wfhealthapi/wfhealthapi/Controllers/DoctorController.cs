@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -157,29 +158,50 @@ namespace wfhealthapi.Controllers
                             if (userInHospcheck != null)
                             {
                                 
+                                List<DoctorAppointmentsResultClassInternal> Appointments = new List<DoctorAppointmentsResultClassInternal>();
                                 // getting all appointments of doctor
                                 var allaptDates = (from r in obj.Appointments
                                     where
                                         r.Doctor_Id == aptmnt.UserId && r.Hospital_Id == aptmnt.HospitalId &&
                                         (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
                                         (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
-                                    select r.AppointmentDate).Distinct().ToList();
-
+                                    select EntityFunctions.TruncateTime(r.AppointmentDate)).Distinct().ToList();
+                                
                                 foreach (DateTime? aptDate in allaptDates)
                                 {
+                                    DoctorAppointmentsResultClassInternal aptInternal = new DoctorAppointmentsResultClassInternal();
                                     var allaptmntsOnDate = (from r in obj.Appointments
                                         where
-                                            r.AppointmentDate == aptDate && r.Doctor_Id == aptmnt.UserId &&
+                                           EntityFunctions.TruncateTime( r.AppointmentDate )== aptDate && r.Doctor_Id == aptmnt.UserId &&
                                             r.Hospital_Id == aptmnt.HospitalId &&
                                             (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
                                             (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
                                         select r).ToList();
-
-                                    foreach (Appointment VARIABLE in allaptmntsOnDate)
+                                    List<DoctorAppointmentsResultClassInternalTimingsInDate> appointmentsOfdate = new List<DoctorAppointmentsResultClassInternalTimingsInDate>();
+                                    foreach (Appointment apt in allaptmntsOnDate)
                                     {
-                                        
+                                        DoctorAppointmentsResultClassInternalTimingsInDate currentApt = new DoctorAppointmentsResultClassInternalTimingsInDate();
+                                        currentApt.AptId = apt.Id.ToString();
+                                        currentApt.AptReason = encDec.Decrypt( apt.AptReason);
+
+                                        currentApt.AptType = apt.AptType;
+                                        currentApt.PatientId = apt.Patient_Id.ToString();
+                                        currentApt.PatientName= apt.UsersMaster1.Name;
+
+                                        currentApt.FromTime = apt.TimeFrom;
+                                        currentApt.ToTime = apt.TimeTo;
+                                        appointmentsOfdate.Add(currentApt);
+
                                     }
 
+                                    aptInternal.aptDate = Convert.ToDateTime( aptDate).ToShortDateString();
+                                    aptInternal.appointments = appointmentsOfdate;
+
+                                    Appointments.Add(aptInternal);
+
+                                    res.Appointments=Appointments;
+                                    res.IsSuccess = true;
+                                    res.ErrMessage = "OK";
 
                                 }
 

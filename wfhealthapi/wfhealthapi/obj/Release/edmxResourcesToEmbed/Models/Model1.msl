@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Appointments">
       <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
         <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="AptType" ColumnName="AptType" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
           <ScalarProperty Name="TimeFrom" ColumnName="TimeFrom" />
