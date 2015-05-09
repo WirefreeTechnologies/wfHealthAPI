@@ -32,6 +32,7 @@ namespace wfhealthapi.Models
             this.ReferralsSentByPatients1 = new HashSet<ReferralsSentByPatient>();
             this.UsersInHospitals = new HashSet<UsersInHospital>();
             this.UsersMaster1 = new HashSet<UsersMaster>();
+            this.UsersDetails = new HashSet<UsersDetail>();
         }
     
         public int Id { get; set; }
@@ -77,5 +78,6 @@ namespace wfhealthapi.Models
         public virtual ICollection<UsersInHospital> UsersInHospitals { get; set; }
         public virtual ICollection<UsersMaster> UsersMaster1 { get; set; }
         public virtual UsersMaster UsersMaster2 { get; set; }
+        public virtual ICollection<UsersDetail> UsersDetails { get; set; }
     }
 }

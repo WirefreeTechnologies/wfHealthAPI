@@ -491,6 +491,11 @@
       <End Role="UsersMaster" EntitySet="UsersMasters" />
       <End Role="UsersMaster1" EntitySet="UsersMasters" />
     </AssociationSet>
+    <EntitySet Name="UsersDetails" EntityType="wfhealthdbModel.UsersDetail" />
+    <AssociationSet Name="FK_UsersDetails_UsersMaster" Association="wfhealthdbModel.FK_UsersDetails_UsersMaster">
+      <End Role="UsersMaster" EntitySet="UsersMasters" />
+      <End Role="UsersDetail" EntitySet="UsersDetails" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="UsersMaster">
     <Key>
@@ -538,6 +543,7 @@
     <NavigationProperty Name="UsersInHospitals" Relationship="wfhealthdbModel.FK_UsersInHospitals_UsersMaster" FromRole="UsersMaster" ToRole="UsersInHospital" />
     <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_UsersMaster_UsersMaster" FromRole="UsersMaster" ToRole="UsersMaster1" />
     <NavigationProperty Name="UsersMaster2" Relationship="wfhealthdbModel.FK_UsersMaster_UsersMaster" FromRole="UsersMaster1" ToRole="UsersMaster" />
+    <NavigationProperty Name="UsersDetails" Relationship="wfhealthdbModel.FK_UsersDetails_UsersMaster" FromRole="UsersMaster" ToRole="UsersDetail" />
   </EntityType>
   <Association Name="FK_Appointments_UsersMaster">
     <End Type="wfhealthdbModel.UsersMaster" Role="UsersMaster" Multiplicity="0..1" />
@@ -740,6 +746,30 @@
       </Principal>
       <Dependent Role="UsersMaster1">
         <PropertyRef Name="Created_By" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UsersDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="Int32" />
+    <Property Name="Website" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Speciality" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="skypeId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_UsersDetails_UsersMaster" FromRole="UsersDetail" ToRole="UsersMaster" />
+  </EntityType>
+  <Association Name="FK_UsersDetails_UsersMaster">
+    <End Type="wfhealthdbModel.UsersMaster" Role="UsersMaster" Multiplicity="0..1" />
+    <End Type="wfhealthdbModel.UsersDetail" Role="UsersDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UsersMaster">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersDetail">
+        <PropertyRef Name="User_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

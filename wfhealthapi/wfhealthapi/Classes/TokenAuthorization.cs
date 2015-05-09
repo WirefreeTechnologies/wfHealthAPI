@@ -9,12 +9,12 @@ namespace wfhealthapi.Classes
 {
     public class TokenAuthorization
     {
-        Utility ut = new Utility();
+        
 
         public string GetNewAccessToken()
         {
             EncryptDecrypt obj = new EncryptDecrypt();
-            string s = ut.GetRandomToken();
+            string s = Utility.GetRandomToken();
             string TokenString = obj.Encrypt(s + DateTime.Now.ToShortDateString());
             return TokenString;
         }

@@ -194,6 +194,7 @@
     <Compile Include="Classes\Input Modals\LoginInputClass.cs" />
     <Compile Include="Classes\Input Modals\UserDeviceModel.cs" />
     <Compile Include="Classes\Output Modals\DoctorAppointmentsResultClass.cs" />
+    <Compile Include="Classes\Output Modals\GetDoctorsListResultClass.cs" />
     <Compile Include="Classes\Output Modals\LoginResultClass.cs" />
     <Compile Include="Classes\TokenAuthorization.cs" />
     <Compile Include="Classes\Utility.cs" />
@@ -254,6 +255,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SuperAdminUser.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UsersDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UsersInHospital.cs">

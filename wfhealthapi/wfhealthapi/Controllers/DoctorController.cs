@@ -22,7 +22,7 @@ namespace wfhealthapi.Controllers
         public LoginResultClass Login(LoginInputClass User)
         {
             LoginResultClass lr = new LoginResultClass();
-            Utility ut = new Utility();
+           
             try
             {
                 using (wfhealthdbEntities obj = new wfhealthdbEntities())
@@ -58,7 +58,7 @@ namespace wfhealthapi.Controllers
                                 var UserRecord =
                                     (from c in obj.UsersMasters
                                      where
-                                         c.UserName == encUsername && c.Password == encPassword && c.Role_Id==2 &&
+                                         c.UserName == encUsername && c.Password == encPassword && c.Role_Id == 2 &&
                                          c.IsActive == true
                                      select c).SingleOrDefault();
 
@@ -70,7 +70,7 @@ namespace wfhealthapi.Controllers
                                     var hospRecord =
                                         (from c in obj.UsersInHospitals
                                          where
-                                             c.Hospital_Id == hospId && c.User_Id == UserRecord.Id && 
+                                             c.Hospital_Id == hospId && c.User_Id == UserRecord.Id &&
                                              c.IsActive == true
                                          select c).SingleOrDefault();
                                     if (hospRecord != null)
@@ -80,7 +80,7 @@ namespace wfhealthapi.Controllers
                                         UserRecord.LastSeenOn = currentTime;
                                         UserRecord.DeviceType = User.DeviceType.Trim();
                                         UserRecord.NotificationToken = User.NotificationToken.Trim();
-                                        UserRecord.AccessToken = ut.GetRandomToken();
+                                        UserRecord.AccessToken = Utility.GetRandomToken();
 
                                         obj.SaveChanges();
 
@@ -138,55 +138,55 @@ namespace wfhealthapi.Controllers
                     aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
 
                 res.Access = tokencheck;
-                if (res.Access.IsTokenValid==true)
+                if (res.Access.IsTokenValid == true)
                 {
                     // getting appointments of docotr in given 
                     // checking if user is doctor and valid in given hospital
-                    using(wfhealthdbEntities obj = new wfhealthdbEntities())
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
                     {
                         var userResult =
-                            (from c in obj.UsersMasters where c.Id == aptmnt.UserId && c.Role_Id == 2 && c.IsActive==true select c)
+                            (from c in obj.UsersMasters where c.Id == aptmnt.UserId && c.Role_Id == 2 && c.IsActive == true select c)
                                 .SingleOrDefault();
-                        if (userResult!=null)
+                        if (userResult != null)
                         {
                             // checking if given doctor is active in given hospital
                             var userInHospcheck = (from d in obj.UsersInHospitals
-                                where
-                                    d.User_Id == aptmnt.UserId && d.Hospital_Id == aptmnt.HospitalId &&
-                                    d.IsActive == true
-                                select d).SingleOrDefault();
+                                                   where
+                                                       d.User_Id == aptmnt.UserId && d.Hospital_Id == aptmnt.HospitalId &&
+                                                       d.IsActive == true
+                                                   select d).SingleOrDefault();
                             if (userInHospcheck != null)
                             {
-                                
+
                                 List<DoctorAppointmentsResultClassInternal> Appointments = new List<DoctorAppointmentsResultClassInternal>();
                                 // getting all appointments of doctor
                                 var allaptDates = (from r in obj.Appointments
-                                    where
-                                        r.Doctor_Id == aptmnt.UserId && r.Hospital_Id == aptmnt.HospitalId &&
-                                        (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
-                                        (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
-                                    select EntityFunctions.TruncateTime(r.AppointmentDate)).Distinct().ToList();
-                                
+                                                   where
+                                                       r.Doctor_Id == aptmnt.UserId && r.Hospital_Id == aptmnt.HospitalId &&
+                                                       (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
+                                                       (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
+                                                   select EntityFunctions.TruncateTime(r.AppointmentDate)).Distinct().ToList();
+
                                 foreach (DateTime? aptDate in allaptDates)
                                 {
                                     DoctorAppointmentsResultClassInternal aptInternal = new DoctorAppointmentsResultClassInternal();
                                     var allaptmntsOnDate = (from r in obj.Appointments
-                                        where
-                                           EntityFunctions.TruncateTime( r.AppointmentDate )== aptDate && r.Doctor_Id == aptmnt.UserId &&
-                                            r.Hospital_Id == aptmnt.HospitalId &&
-                                            (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
-                                            (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
-                                        select r).ToList();
+                                                            where
+                                                               EntityFunctions.TruncateTime(r.AppointmentDate) == aptDate && r.Doctor_Id == aptmnt.UserId &&
+                                                                r.Hospital_Id == aptmnt.HospitalId &&
+                                                                (r.IsCancelledByPat == null || r.IsCancelledByPat == false) &&
+                                                                (r.IsMeetingHeld == null || r.IsMeetingHeld == false)
+                                                            select r).ToList();
                                     List<DoctorAppointmentsResultClassInternalTimingsInDate> appointmentsOfdate = new List<DoctorAppointmentsResultClassInternalTimingsInDate>();
                                     foreach (Appointment apt in allaptmntsOnDate)
                                     {
                                         DoctorAppointmentsResultClassInternalTimingsInDate currentApt = new DoctorAppointmentsResultClassInternalTimingsInDate();
                                         currentApt.AptId = apt.Id.ToString();
-                                        currentApt.AptReason = encDec.Decrypt( apt.AptReason);
+                                        currentApt.AptReason = encDec.Decrypt(apt.AptReason);
 
                                         currentApt.AptType = apt.AptType;
                                         currentApt.PatientId = apt.Patient_Id.ToString();
-                                        currentApt.PatientName= apt.UsersMaster1.Name;
+                                        currentApt.PatientName = apt.UsersMaster1.Name;
 
                                         currentApt.FromTime = apt.TimeFrom;
                                         currentApt.ToTime = apt.TimeTo;
@@ -194,12 +194,12 @@ namespace wfhealthapi.Controllers
 
                                     }
 
-                                    aptInternal.aptDate = Convert.ToDateTime( aptDate).ToShortDateString();
+                                    aptInternal.aptDate = Convert.ToDateTime(aptDate).ToShortDateString();
                                     aptInternal.appointments = appointmentsOfdate;
 
                                     Appointments.Add(aptInternal);
 
-                                    res.Appointments=Appointments;
+                                    res.Appointments = Appointments;
                                     res.IsSuccess = true;
                                     res.ErrMessage = "OK";
 
@@ -220,7 +220,7 @@ namespace wfhealthapi.Controllers
                         {
                             res.ErrMessage = "Given user is not a Doctor.";
                             res.IsSuccess = false;
-                            
+
                         }
                     }
 
@@ -236,7 +236,110 @@ namespace wfhealthapi.Controllers
                 return res;
             }
 
-            
+
+        }
+
+
+        // getting list patients
+        [HttpPost]
+        [ActionName("GetPatientsList")]
+        public GetPatientsListResultClass GetPatientsList(GetAppointmentInputModel aptmnt)
+        {
+
+            GetPatientsListResultClass res = new GetPatientsListResultClass();
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    // getting appointments of docotr in given 
+                    // checking if user is doctor and valid in given hospital
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                    {
+                        int roleid = Utility.GetRoleId("Doctor");
+                        var userResult =
+                            (from c in obj.UsersMasters where c.Id == aptmnt.UserId && c.Role_Id == roleid && c.IsActive == true select c)
+                                .SingleOrDefault();
+                        if (userResult != null)
+                        {
+                            // checking if given doctor is active in given hospital
+                            var userInHospcheck = (from d in obj.UsersInHospitals
+                                                   where
+                                                       d.User_Id == aptmnt.UserId && d.Hospital_Id == aptmnt.HospitalId &&
+                                                       d.IsActive == true
+                                                   select d).SingleOrDefault();
+                            if (userInHospcheck != null)
+                            {
+                                roleid = Utility.GetRoleId("Patient");
+                                // getting all doctors in given hospital
+                                var allDoctors = (from c in obj.UsersMasters
+                                                  join d in obj.UsersInHospitals on c.Id equals d.User_Id
+
+
+
+
+
+                                                  where c.Role_Id == roleid  && d.Hospital_Id == aptmnt.HospitalId && d.IsActive == true
+                                                  select new PatientProfileOutputClass
+                                                  {
+                                                      PatientEmail = c.eMail,
+                                                      PatientId = c.Id,
+                                                      PatientName = c.Name
+
+
+                                                  }).ToList();
+
+                                foreach (PatientProfileOutputClass doc in allDoctors)
+                                {
+                                    var docdetails = (from c in obj.UsersDetails where c.User_Id == doc.PatientId select c).SingleOrDefault();
+
+                                    if (docdetails != null)
+                                    {
+                                        doc.PatientSkype = docdetails.skypeId;
+                                        doc.PatientWebsite = docdetails.Website;
+                                    }
+                                }
+
+                                res.IsSuccess = true;
+                                res.ErrMessage = "OK";
+                                res.Patients = allDoctors;
+
+
+                            }
+                            else
+                            {
+                                res.ErrMessage = "Given user is not associated with Given hospital.";
+                                res.IsSuccess = false;
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            res.ErrMessage = "Given user is not a Doctor.";
+                            res.IsSuccess = false;
+
+                        }
+                    }
+
+
+                }
+
+                return res;
+            }
+            catch
+            {
+                res.ErrMessage = "Error occurred at server.";
+                res.IsSuccess = false;
+                return res;
+            }
+
+
+
         }
     }
 }

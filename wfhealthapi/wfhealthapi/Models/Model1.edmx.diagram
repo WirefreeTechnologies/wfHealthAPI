@@ -47,6 +47,8 @@
         <AssociationConnector Association="wfhealthdbModel.FK_UsersMaster_RoleMaster" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersInHospitals_UsersMaster" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersMaster_UsersMaster" />
+        <EntityTypeShape EntityType="wfhealthdbModel.UsersDetail" Width="1.5" PointX="5.25" PointY="24.75" />
+        <AssociationConnector Association="wfhealthdbModel.FK_UsersDetails_UsersMaster" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

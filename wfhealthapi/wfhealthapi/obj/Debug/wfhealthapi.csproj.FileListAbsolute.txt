@@ -84,3 +84,4 @@ C:\p\wfHealthAPI\wfhealthapi\wfhealthapi\bin\System.Web.WebPages.Razor.xml
 C:\p\wfHealthAPI\wfhealthapi\wfhealthapi\bin\Antlr3.Runtime.pdb
 C:\p\wfHealthAPI\wfhealthapi\wfhealthapi\obj\Debug\wfhealthapi.dll
 C:\p\wfHealthAPI\wfhealthapi\wfhealthapi\obj\Debug\wfhealthapi.pdb
+C:\p\wfHealthAPI\wfhealthapi\wfhealthapi\obj\Debug\wfhealthapi.csprojResolveAssemblyReference.cache

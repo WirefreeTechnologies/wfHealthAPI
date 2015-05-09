@@ -37,5 +37,6 @@ namespace wfhealthapi.Models
         public DbSet<SuperAdminUser> SuperAdminUsers { get; set; }
         public DbSet<UsersInHospital> UsersInHospitals { get; set; }
         public DbSet<UsersMaster> UsersMasters { get; set; }
+        public DbSet<UsersDetail> UsersDetails { get; set; }
     }
 }

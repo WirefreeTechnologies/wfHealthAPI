@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using wfhealthapi.Models;
 
 namespace wfhealthapi.Classes
 {
-    public class Utility
+    public static class Utility
     {
-        public string GetRandomToken()
+        public static string GetRandomToken()
         {
             const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var random = new Random();
@@ -19,6 +20,17 @@ namespace wfhealthapi.Classes
             return randomId;
         }
 
+
+        public static int GetRoleId(string RoleName)
+        {
+            using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            {
+                return
+                    (from c in obj.RoleMasters where c.RoleName == RoleName && c.IsActive == true select c)
+                        .SingleOrDefault().Id;
+            }
+            
+        }
     }
 
 }

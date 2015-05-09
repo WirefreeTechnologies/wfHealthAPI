@@ -155,6 +155,17 @@
           <Property Name="Role_Id" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="UsersDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Id" Type="int" />
+          <Property Name="Website" Type="varchar(max)" />
+          <Property Name="Speciality" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="skypeId" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="UsersInHospitals">
           <Key>
             <PropertyRef Name="Id" />
@@ -506,6 +517,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UsersDetails_UsersMaster">
+          <End Role="UsersMaster" Type="Self.UsersMaster" Multiplicity="0..1" />
+          <End Role="UsersDetails" Type="Self.UsersDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersDetails">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UsersInHospitals_HospitalsMaster">
           <End Role="HospitalsMaster" Type="Self.HospitalsMaster" Multiplicity="0..1" />
           <End Role="UsersInHospitals" Type="Self.UsersInHospitals" Multiplicity="*" />
@@ -565,6 +588,7 @@
           <EntitySet Name="ReferralsSentByPatients" EntityType="Self.ReferralsSentByPatients" Schema="wfhealth" store:Type="Tables" />
           <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="wfhealth" store:Type="Tables" />
           <EntitySet Name="SuperAdminUsers" EntityType="Self.SuperAdminUsers" Schema="wfhealth" store:Type="Tables" />
+          <EntitySet Name="UsersDetails" EntityType="Self.UsersDetails" Schema="wfhealth" store:Type="Tables" />
           <EntitySet Name="UsersInHospitals" EntityType="Self.UsersInHospitals" Schema="wfhealth" store:Type="Tables" />
           <EntitySet Name="UsersMaster" EntityType="Self.UsersMaster" Schema="wfhealth" store:Type="Tables" />
           <AssociationSet Name="FK_Appointments_HospitalsMaster" Association="Self.FK_Appointments_HospitalsMaster">
@@ -670,6 +694,10 @@
           <AssociationSet Name="FK_SuperAdminUsers_RoleMaster" Association="Self.FK_SuperAdminUsers_RoleMaster">
             <End Role="RoleMaster" EntitySet="RoleMaster" />
             <End Role="SuperAdminUsers" EntitySet="SuperAdminUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersDetails_UsersMaster" Association="Self.FK_UsersDetails_UsersMaster">
+            <End Role="UsersMaster" EntitySet="UsersMaster" />
+            <End Role="UsersDetails" EntitySet="UsersDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_UsersInHospitals_HospitalsMaster" Association="Self.FK_UsersInHospitals_HospitalsMaster">
             <End Role="HospitalsMaster" EntitySet="HospitalsMaster" />
@@ -1183,6 +1211,11 @@
             <End Role="UsersMaster" EntitySet="UsersMasters" />
             <End Role="UsersMaster1" EntitySet="UsersMasters" />
           </AssociationSet>
+          <EntitySet Name="UsersDetails" EntityType="wfhealthdbModel.UsersDetail" />
+          <AssociationSet Name="FK_UsersDetails_UsersMaster" Association="wfhealthdbModel.FK_UsersDetails_UsersMaster">
+            <End Role="UsersMaster" EntitySet="UsersMasters" />
+            <End Role="UsersDetail" EntitySet="UsersDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="UsersMaster">
           <Key>
@@ -1230,6 +1263,7 @@
           <NavigationProperty Name="UsersInHospitals" Relationship="wfhealthdbModel.FK_UsersInHospitals_UsersMaster" FromRole="UsersMaster" ToRole="UsersInHospital" />
           <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_UsersMaster_UsersMaster" FromRole="UsersMaster" ToRole="UsersMaster1" />
           <NavigationProperty Name="UsersMaster2" Relationship="wfhealthdbModel.FK_UsersMaster_UsersMaster" FromRole="UsersMaster1" ToRole="UsersMaster" />
+          <NavigationProperty Name="UsersDetails" Relationship="wfhealthdbModel.FK_UsersDetails_UsersMaster" FromRole="UsersMaster" ToRole="UsersDetail" />
         </EntityType>
         <Association Name="FK_Appointments_UsersMaster">
           <End Type="wfhealthdbModel.UsersMaster" Role="UsersMaster" Multiplicity="0..1" />
@@ -1432,6 +1466,30 @@
             </Principal>
             <Dependent Role="UsersMaster1">
               <PropertyRef Name="Created_By" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UsersDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="Int32" />
+          <Property Name="Website" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Speciality" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="skypeId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_UsersDetails_UsersMaster" FromRole="UsersDetail" ToRole="UsersMaster" />
+        </EntityType>
+        <Association Name="FK_UsersDetails_UsersMaster">
+          <End Type="wfhealthdbModel.UsersMaster" Role="UsersMaster" Multiplicity="0..1" />
+          <End Type="wfhealthdbModel.UsersDetail" Role="UsersDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsersMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersDetail">
+              <PropertyRef Name="User_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1638,6 +1696,18 @@
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersDetails">
+            <EntityTypeMapping TypeName="wfhealthdbModel.UsersDetail">
+              <MappingFragment StoreEntitySet="UsersDetails">
+                <ScalarProperty Name="skypeId" ColumnName="skypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Speciality" ColumnName="Speciality" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
