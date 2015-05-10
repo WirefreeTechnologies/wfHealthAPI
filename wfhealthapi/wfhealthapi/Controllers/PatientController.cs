@@ -224,5 +224,11 @@ namespace wfhealthapi.Controllers
 
 
         }
+
+
+        // to book appointment with doctor
+        //[HttpPost]
+        //[ActionName("BookAppointment")]
+        //public 
     }
 }

@@ -38,5 +38,8 @@ namespace wfhealthapi.Models
         public DbSet<UsersInHospital> UsersInHospitals { get; set; }
         public DbSet<UsersMaster> UsersMasters { get; set; }
         public DbSet<UsersDetail> UsersDetails { get; set; }
+        public DbSet<LabTests_LKP> LabTests_LKP { get; set; }
+        public DbSet<PatientsFamilyMember> PatientsFamilyMembers { get; set; }
+        public DbSet<Specialities_LKP> Specialities_LKP { get; set; }
     }
 }

@@ -42,4 +42,15 @@ namespace wfhealthapi.Classes.Output_Modals
         public string PatientSkype { get; set; }
 
     }
+
+
+    public class BookAppointmentResult
+    {
+        public AccessTokenValidationModel Access { get; set; }
+        public bool IsAppointmentBooked { get; set; }
+        public int AptId { get; set; }
+        public bool IsSuccess { get; set; }
+        public string ErrMessage { get; set; }
+    }
+
 }
