@@ -31,6 +31,18 @@ namespace wfhealthapi.Classes
             }
             
         }
+
+        // to get setting value from database
+        public static string GetSettingValue(string SettingName)
+        {
+            using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            {
+                return
+                    (from c in obj.AppSettings where c.SettingName == SettingName && c.IsActive == true select c)
+                        .SingleOrDefault().SettingValue;
+            }
+
+        }
     }
 
 }

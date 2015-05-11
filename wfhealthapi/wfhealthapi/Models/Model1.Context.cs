@@ -41,5 +41,6 @@ namespace wfhealthapi.Models
         public DbSet<LabTests_LKP> LabTests_LKP { get; set; }
         public DbSet<PatientsFamilyMember> PatientsFamilyMembers { get; set; }
         public DbSet<Specialities_LKP> Specialities_LKP { get; set; }
+        public DbSet<AppSetting> AppSettings { get; set; }
     }
 }
