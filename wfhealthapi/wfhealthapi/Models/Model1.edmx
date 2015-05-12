@@ -105,6 +105,7 @@
           <Property Name="PatientId" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="HospitalId" Type="int" />
         </EntityType>
         <EntityType Name="PrescriptionAttachments">
           <Key>
@@ -1571,6 +1572,7 @@
           <Property Name="PatientId" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
+          <Property Name="HospitalId" Type="Int32" />
         </EntityType>
         <EntityType Name="Specialities_LKP">
           <Key>
@@ -1827,6 +1829,7 @@
           <EntitySetMapping Name="PatientsFamilyMembers">
             <EntityTypeMapping TypeName="wfhealthdbModel.PatientsFamilyMember">
               <MappingFragment StoreEntitySet="PatientsFamilyMembers">
+                <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />

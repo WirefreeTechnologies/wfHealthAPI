@@ -14,6 +14,15 @@ namespace wfhealthapi.Classes.Output_Modals
         public string ErrMessage { get; set; }
     }
 
+    public class AddFamilyMemberResultClass
+    {
+        public AccessTokenValidationModel Access { get; set; }
+
+        public bool IsSuccess { get; set; }
+        public string ErrMessage { get; set; }
+        
+    }
+
     public class DoctorProfileOutputClass
     {
         public int DoctorId { get; set; }

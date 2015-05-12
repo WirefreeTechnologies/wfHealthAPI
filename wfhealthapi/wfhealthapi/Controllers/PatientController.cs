@@ -21,7 +21,7 @@ namespace wfhealthapi.Controllers
         public LoginResultClass Login(LoginInputClass User)
         {
             LoginResultClass lr = new LoginResultClass();
-         
+
             try
             {
                 using (wfhealthdbEntities obj = new wfhealthdbEntities())
@@ -161,9 +161,9 @@ namespace wfhealthapi.Controllers
                                 var allDoctors = (from c in obj.UsersMasters
                                                   join d in obj.UsersInHospitals on c.Id equals d.User_Id
 
-                                   
-                                
-                                
+
+
+
 
                                                   where c.Role_Id == 2 && d.Hospital_Id == aptmnt.HospitalId && d.IsActive == true
                                                   select new DoctorProfileOutputClass
@@ -171,15 +171,15 @@ namespace wfhealthapi.Controllers
                                                       DoctorEmail = c.eMail,
                                                       DoctorId = c.Id,
                                                       DoctorName = c.Name
-                                   
+
 
                                                   }).ToList();
 
                                 foreach (DoctorProfileOutputClass doc in allDoctors)
                                 {
-                                    var docdetails = (from c in obj.UsersDetails where c.User_Id==doc.DoctorId select c).SingleOrDefault();
+                                    var docdetails = (from c in obj.UsersDetails where c.User_Id == doc.DoctorId select c).SingleOrDefault();
 
-                                    if (docdetails!=null)
+                                    if (docdetails != null)
                                     {
                                         doc.DoctorSkype = docdetails.skypeId;
                                         doc.DoctorWebsite = docdetails.Website;
@@ -225,6 +225,187 @@ namespace wfhealthapi.Controllers
 
         }
 
+        [HttpPost]
+        [ActionName("AddFamilyMember")]
+        public AddFamilyMemberResultClass AddFamilyMember(AddFamilyMemberInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (String.IsNullOrEmpty(aptmnt.FamilyMember.Name) == true)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Family Member name required.";
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(aptmnt.FamilyMember.RelationWithPatient) == true)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Family Relation with patient required.";
+                        }
+                        else
+                        {
+                            if (String.IsNullOrEmpty(aptmnt.FamilyMember.Gender) == true)
+                            {
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Family Member Gender required.";
+                            }
+                            else
+                            {
+                                if ((aptmnt.FamilyMember.DOB) == null)
+                                {
+                                    res.IsSuccess = false;
+                                    res.ErrMessage = "Family Member DOB required.";
+                                }
+                                else
+                                {
+
+                                    PatientsFamilyMember pfm = new PatientsFamilyMember();
+                                    pfm.Name = aptmnt.FamilyMember.Name.Trim();
+                                    pfm.Gender = aptmnt.FamilyMember.Gender.Trim();
+                                    pfm.RelationWithPatient = aptmnt.FamilyMember.RelationWithPatient.Trim();
+
+                                    pfm.DOB = aptmnt.FamilyMember.DOB;
+
+                                    pfm.PatientId = aptmnt.UserId;
+                                    pfm.HospitalId = aptmnt.HospitalId;
+
+                                    pfm.CreatedOn = DateTime.UtcNow;
+
+                                    pfm.IsActive = true;
+
+                                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                                    {
+                                        obj.PatientsFamilyMembers.Add(pfm);
+                                        obj.SaveChanges();
+                                        res.IsSuccess = true;
+                                        res.ErrMessage = "Family Member added succesfully.";
+
+                                    }
+
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Invalid access token.";
+                }
+                return res;
+
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = ex.ToString();
+                return res;
+            }
+        }
+
+
+        // to delete given family member
+        [HttpPost]
+        [ActionName("DeleteFamilyMember")]
+        public AddFamilyMemberResultClass DeleteFamilyMember(DeleteFamilyMemberInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (aptmnt.FamilyMemberId == 0 || aptmnt.FamilyMemberId == null)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Family Member Id required.";
+                    }
+                    else
+                    {
+                        // cehcking if given family member is associated with given patien id
+                        using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                        {
+                            var familyMemberDetail = (from c in obj.PatientsFamilyMembers
+                                where
+                                    c.IsActive == true && c.HospitalId == aptmnt.HospitalId &&
+                                    c.PatientId == aptmnt.UserId && c.Id == aptmnt.FamilyMemberId
+                                select c).SingleOrDefault();
+
+
+                            if (familyMemberDetail!=null)
+                            {
+                                familyMemberDetail.IsActive = false;
+                                obj.SaveChanges();
+                                res.IsSuccess = true;
+                                res.ErrMessage = "Given family member deleted successfully.";
+                            }
+                            else
+                            {
+                                //not found
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Given family member not found or invalid id supplied.";
+                            }
+
+                        }
+                        
+                        
+                    }
+
+                }
+
+                else
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Invalid access token.";
+                }
+                return res;
+
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = ex.ToString();
+                return res;
+            }
+
+        }
+
+
+
+        // to get all family members of patient
+        //[HttpPost]
+        //[ActionName("GetAllFamilyMembers")]
+        //public GetFAmilyMembersResultClass GetAllFamilyMembers(GetAppointmentInputModel aptmnt)
+        //{
+        //    GetFAmilyMembersResultClass r = new GetFAmilyMembersResultClass();
+
+        //    try
+        //    {
+        //        AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+        //            aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+        //    }
+        //    catch (Exception ex)
+        //    {
+                
+        //    }
+
+        //}
 
         // to book appointment with doctor
         //[HttpPost]

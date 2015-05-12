@@ -215,6 +215,9 @@
     <Compile Include="Models\Appointment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppSetting.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DoctorTiming.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

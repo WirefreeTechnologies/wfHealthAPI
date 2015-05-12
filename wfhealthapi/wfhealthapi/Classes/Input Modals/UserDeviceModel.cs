@@ -93,4 +93,60 @@ namespace wfhealthapi.Classes.Input_Modals
 
     }
 
+
+    public class AddFamilyMemberInputClass
+    {
+        public int UserId { get; set; }
+
+        public int HospitalId { get; set; }
+
+        public string AccessToken { get; set; }
+        public string DeviceType { get; set; }
+        public string NotificationToken { get; set; }
+
+        public string Lati { get; set; }
+
+        public string Longi { get; set; }
+
+        public FamillyMemberInput FamilyMember { get; set; }
+    }
+
+
+
+    public class GetFAmilyMembersResultClass
+    {
+        public AccessTokenValidationModel Access { get; set; }
+
+        public bool IsSuccess { get; set; }
+        public string ErrMessage { get; set; }
+
+        public List<FamillyMemberInput> FamilyMembers { get; set; }
+
+    }
+
+    public class DeleteFamilyMemberInputClass
+    {
+        public int UserId { get; set; }
+
+        public int HospitalId { get; set; }
+
+        public string AccessToken { get; set; }
+        public string DeviceType { get; set; }
+        public string NotificationToken { get; set; }
+
+        public string Lati { get; set; }
+
+        public string Longi { get; set; }
+
+        public int FamilyMemberId { get; set; }
+    }
+
+    public class FamillyMemberInput
+    {
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string RelationWithPatient { get; set; }
+        public DateTime DOB { get; set; }
+    }
+
 }

@@ -22,5 +22,6 @@ namespace wfhealthapi.Models
         public Nullable<int> PatientId { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> HospitalId { get; set; }
     }
 }
