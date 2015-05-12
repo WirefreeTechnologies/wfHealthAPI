@@ -19,6 +19,18 @@
     <Property Name="Patient_Id" Type="int" />
     <Property Name="Hospital_Id" Type="int" />
     <Property Name="AptType" Type="varchar" MaxLength="10" />
+    <Property Name="IsAptForFamilyMember" Type="bit" />
+    <Property Name="FamilyMember_Id" Type="int" />
+    <Property Name="FamilyMemberName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="AppSettings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SettingName" Type="varchar" MaxLength="500" />
+    <Property Name="SettingValue" Type="varchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
   </EntityType>
   <EntityType Name="DoctorTimings">
     <Key>
@@ -65,6 +77,30 @@
     <Property Name="Lati" Type="varchar" MaxLength="50" />
     <Property Name="Longi" Type="varchar" MaxLength="50" />
     <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="LabTests_LKP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TestName" Type="varchar(max)" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="ImagePath" Type="varchar(max)" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="PatientsFamilyMembers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="RelationWithPatient" Type="varchar(max)" />
+    <Property Name="PatientId" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="HospitalId" Type="int" />
   </EntityType>
   <EntityType Name="PrescriptionAttachments">
     <Key>
@@ -134,6 +170,16 @@
     <Property Name="IsActive" Type="bit" />
     <Property Name="RoleDescription" Type="varchar(max)" />
     <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="ImagePath" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Specialities_LKP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Description" Type="varchar(max)" />
     <Property Name="ImagePath" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="SuperAdminUsers">
@@ -574,14 +620,18 @@
   </Association>
   <EntityContainer Name="wfhealthdbModelStoreContainer">
     <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="DoctorTimings" EntityType="Self.DoctorTimings" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="Feedbacks" EntityType="Self.Feedbacks" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="HospitalsMaster" EntityType="Self.HospitalsMaster" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="LabTests_LKP" EntityType="Self.LabTests_LKP" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="PatientsFamilyMembers" EntityType="Self.PatientsFamilyMembers" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="PrescriptionAttachments" EntityType="Self.PrescriptionAttachments" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="Prescriptions" EntityType="Self.Prescriptions" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="ReferralsSentByDoctors" EntityType="Self.ReferralsSentByDoctors" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="ReferralsSentByPatients" EntityType="Self.ReferralsSentByPatients" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="wfhealth" store:Type="Tables" />
+    <EntitySet Name="Specialities_LKP" EntityType="Self.Specialities_LKP" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="SuperAdminUsers" EntityType="Self.SuperAdminUsers" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="UsersDetails" EntityType="Self.UsersDetails" Schema="wfhealth" store:Type="Tables" />
     <EntitySet Name="UsersInHospitals" EntityType="Self.UsersInHospitals" Schema="wfhealth" store:Type="Tables" />

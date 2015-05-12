@@ -4,6 +4,9 @@
     <EntitySetMapping Name="Appointments">
       <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
         <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="FamilyMemberName" ColumnName="FamilyMemberName" />
+          <ScalarProperty Name="FamilyMember_Id" ColumnName="FamilyMember_Id" />
+          <ScalarProperty Name="IsAptForFamilyMember" ColumnName="IsAptForFamilyMember" />
           <ScalarProperty Name="AptType" ColumnName="AptType" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
@@ -210,6 +213,53 @@
           <ScalarProperty Name="Speciality" ColumnName="Speciality" />
           <ScalarProperty Name="Website" ColumnName="Website" />
           <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LabTests_LKP">
+      <EntityTypeMapping TypeName="wfhealthdbModel.LabTests_LKP">
+        <MappingFragment StoreEntitySet="LabTests_LKP">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TestName" ColumnName="TestName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientsFamilyMembers">
+      <EntityTypeMapping TypeName="wfhealthdbModel.PatientsFamilyMember">
+        <MappingFragment StoreEntitySet="PatientsFamilyMembers">
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+          <ScalarProperty Name="RelationWithPatient" ColumnName="RelationWithPatient" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specialities_LKP">
+      <EntityTypeMapping TypeName="wfhealthdbModel.Specialities_LKP">
+        <MappingFragment StoreEntitySet="Specialities_LKP">
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppSettings">
+      <EntityTypeMapping TypeName="wfhealthdbModel.AppSetting">
+        <MappingFragment StoreEntitySet="AppSettings">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+          <ScalarProperty Name="SettingName" ColumnName="SettingName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

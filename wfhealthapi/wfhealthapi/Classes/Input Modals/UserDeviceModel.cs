@@ -147,6 +147,7 @@ namespace wfhealthapi.Classes.Input_Modals
         public string Gender { get; set; }
         public string RelationWithPatient { get; set; }
         public DateTime DOB { get; set; }
+        public int Id { get; set; }
     }
 
 }

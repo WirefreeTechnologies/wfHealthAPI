@@ -389,23 +389,188 @@ namespace wfhealthapi.Controllers
 
 
         // to get all family members of patient
-        //[HttpPost]
-        //[ActionName("GetAllFamilyMembers")]
-        //public GetFAmilyMembersResultClass GetAllFamilyMembers(GetAppointmentInputModel aptmnt)
-        //{
-        //    GetFAmilyMembersResultClass r = new GetFAmilyMembersResultClass();
+        [HttpPost]
+        [ActionName("GetAllFamilyMembers")]
+        public GetFAmilyMembersResultClass GetAllFamilyMembers(GetAppointmentInputModel aptmnt)
+        {
+            GetFAmilyMembersResultClass r = new GetFAmilyMembersResultClass();
 
-        //    try
-        //    {
-        //        AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
-        //            aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
-        //    }
-        //    catch (Exception ex)
-        //    {
-                
-        //    }
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+                r.Access = tokencheck;
+                if (r.Access.IsTokenValid == true)
+                {
+                    //getting all family members of patient
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                    {
+                        var allfamilyMembers  = (from c in  obj.PatientsFamilyMembers where  c.IsActive==true && c.HospitalId==aptmnt.HospitalId && c.PatientId==aptmnt.UserId select 
+                                                     
+                                                    
+                                                     c).ToList();
 
-        //}
+                        List<FamillyMemberInput> mm = new List<FamillyMemberInput>();
+                        foreach (PatientsFamilyMember pfm in allfamilyMembers)
+                        {
+                            FamillyMemberInput f = new FamillyMemberInput();
+                            f.Name = pfm.Name;
+                            f.Gender = pfm.Gender;
+
+                            f.DOB = Convert.ToDateTime(pfm.DOB);
+
+                            f.RelationWithPatient = pfm.RelationWithPatient;
+                            f.Id = pfm.Id;
+                            mm.Add(f);
+                        }
+                        r.FamilyMembers = mm;
+                        r.ErrMessage = "OK";
+                        r.IsSuccess = true;
+
+
+                    }
+                    
+
+                }
+                else
+                {
+                    r.ErrMessage = "Invalid access token.";
+                    r.IsSuccess = false;
+                    r.FamilyMembers = null;
+                }
+                return r;
+            }
+            catch (Exception ex)
+            {
+                r.ErrMessage = "Server Error.";
+                r.IsSuccess = false;
+                r.FamilyMembers = null;
+                return r;
+
+            }
+
+        }
+
+
+        // to edit familyMember details
+        [HttpPost]
+        [ActionName("EditFamilyMember")]
+        public AddFamilyMemberResultClass EditFamilyMember(AddFamilyMemberInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (aptmnt.FamilyMember.Id == 0 || aptmnt.FamilyMember.Id == null)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Family Member Id required.";
+                    }
+                    else
+                    {
+                        // cehcking if given family member is associated with given patien id
+                        using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                        {
+                            var familyMemberDetail = (from c in obj.PatientsFamilyMembers
+                                                      where
+                                                          c.IsActive == true && c.HospitalId == aptmnt.HospitalId &&
+                                                          c.PatientId == aptmnt.UserId && c.Id == aptmnt.FamilyMember.Id
+                                                      select c).SingleOrDefault();
+
+
+                            if (familyMemberDetail != null)
+                            {
+
+                                if (String.IsNullOrEmpty(aptmnt.FamilyMember.Name) == true)
+                                {
+                                    res.IsSuccess = false;
+                                    res.ErrMessage = "Family Member name required.";
+                                }
+                                else
+                                {
+                                    if (String.IsNullOrEmpty(aptmnt.FamilyMember.RelationWithPatient) == true)
+                                    {
+                                        res.IsSuccess = false;
+                                        res.ErrMessage = "Family Relation with patient required.";
+                                    }
+                                    else
+                                    {
+                                        if (String.IsNullOrEmpty(aptmnt.FamilyMember.Gender) == true)
+                                        {
+                                            res.IsSuccess = false;
+                                            res.ErrMessage = "Family Member Gender required.";
+                                        }
+                                        else
+                                        {
+                                            if ((aptmnt.FamilyMember.DOB) == null)
+                                            {
+                                                res.IsSuccess = false;
+                                                res.ErrMessage = "Family Member DOB required.";
+                                            }
+                                            else
+                                            {
+
+                                                familyMemberDetail.Name = aptmnt.FamilyMember.Name.Trim();
+                                                familyMemberDetail.Gender = aptmnt.FamilyMember.Gender.Trim();
+                                                familyMemberDetail.RelationWithPatient =
+                                                    aptmnt.FamilyMember.RelationWithPatient.Trim();
+
+                                                familyMemberDetail.DOB = aptmnt.FamilyMember.DOB;
+
+                                                familyMemberDetail.HospitalId = aptmnt.HospitalId;
+
+
+
+
+
+                                                obj.SaveChanges();
+                                                res.IsSuccess = true;
+                                                res.ErrMessage = "Given family details updated successfully.";
+                                            }
+
+
+
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //not found
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Given family member not found or invalid id supplied.";
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+                else
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Invalid access token.";
+                }
+                return res;
+
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = ex.ToString();
+                return res;
+            }
+
+        }
+
 
         // to book appointment with doctor
         //[HttpPost]

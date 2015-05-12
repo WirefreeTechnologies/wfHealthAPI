@@ -25,6 +25,9 @@
     <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_Appointments_UsersMaster" FromRole="Appointment" ToRole="UsersMaster" />
     <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_Appointments_UsersMaster1" FromRole="Appointment" ToRole="UsersMaster" />
     <Property Name="AptType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsAptForFamilyMember" Type="Boolean" />
+    <Property Name="FamilyMember_Id" Type="Int32" />
+    <Property Name="FamilyMemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="DoctorTiming">
     <Key>
@@ -496,6 +499,10 @@
       <End Role="UsersMaster" EntitySet="UsersMasters" />
       <End Role="UsersDetail" EntitySet="UsersDetails" />
     </AssociationSet>
+    <EntitySet Name="LabTests_LKP" EntityType="wfhealthdbModel.LabTests_LKP" />
+    <EntitySet Name="PatientsFamilyMembers" EntityType="wfhealthdbModel.PatientsFamilyMember" />
+    <EntitySet Name="Specialities_LKP" EntityType="wfhealthdbModel.Specialities_LKP" />
+    <EntitySet Name="AppSettings" EntityType="wfhealthdbModel.AppSetting" />
   </EntityContainer>
   <EntityType Name="UsersMaster">
     <Key>
@@ -773,4 +780,47 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="LabTests_LKP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TestName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="PatientsFamilyMember">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="3" />
+    <Property Name="RelationWithPatient" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PatientId" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="HospitalId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Specialities_LKP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="AppSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SettingName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="SettingValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
 </Schema>
