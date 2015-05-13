@@ -125,6 +125,116 @@ namespace wfhealthapi.Controllers
             }
         }
 
+
+        // login with fb
+        [HttpPost]
+        [ActionName("LoginWithFB")]
+        public LoginResultClass LoginWithFB(LoginInputClass User)
+        {
+            LoginResultClass lr = new LoginResultClass();
+
+            try
+            {
+                using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                {
+                    if (String.IsNullOrEmpty(User.Hospital_Id))
+                    {
+                        lr.IsSuccess = false;
+                        lr.ErrMessage = "Hospital Id not provided.";
+                        lr.AccessToken = null;
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(User.FBeMail))
+                        {
+                            lr.IsSuccess = false;
+                            lr.ErrMessage = "eMail not provided.";
+                            lr.AccessToken = null;
+                        }
+                        else
+                        {
+                            if (String.IsNullOrEmpty(User.FBId))
+                            {
+                                lr.IsSuccess = false;
+                                lr.ErrMessage = "FBId not provided.";
+                                lr.AccessToken = null;
+                            }
+                            else
+                            {
+                                // got everything going in for validation
+                               
+
+                                var UserRecord =
+                                    (from c in obj.UsersMasters
+                                     where
+                                         c.IsFBConnect == true && c.FbId == User.FBId && c.eMail == User.FBeMail && c.Role_Id == 2 &&
+                                         c.IsActive == true
+                                     select c).SingleOrDefault();
+
+
+                                if (UserRecord != null)
+                                {
+                                    int hospId = Convert.ToInt16(User.Hospital_Id);
+                                    // got user, checking hospital
+                                    var hospRecord =
+                                        (from c in obj.UsersInHospitals
+                                         where
+                                             c.Hospital_Id == hospId && c.User_Id == UserRecord.Id &&
+                                             c.IsActive == true
+                                         select c).SingleOrDefault();
+                                    if (hospRecord != null)
+                                    {
+                                        // valid user, setting device type, token and other stuff
+                                        DateTime currentTime = DateTime.UtcNow;
+                                        UserRecord.LastSeenOn = currentTime;
+                                        UserRecord.DeviceType = User.DeviceType.Trim();
+                                        UserRecord.NotificationToken = User.NotificationToken.Trim();
+                                        UserRecord.AccessToken = Utility.GetRandomToken();
+
+                                        obj.SaveChanges();
+
+                                        lr.IsSuccess = true;
+                                        lr.ErrMessage = "OK";
+                                        lr.AccessToken = UserRecord.AccessToken;
+                                        lr.UserId = UserRecord.Id;
+
+                                    }
+                                    else
+                                    {
+                                        // user not associated with hospital
+                                        lr.IsSuccess = false;
+                                        lr.ErrMessage = "User not found in given hospital.";
+                                        lr.AccessToken = null;
+                                    }
+
+                                }
+                                else
+                                {
+                                    // invalid credentials
+                                    lr.IsSuccess = false;
+                                    lr.ErrMessage = "Given eMail id not registered with us.";
+                                    lr.AccessToken = null;
+                                }
+                            }
+
+                        }
+                    }
+                }
+                return lr;
+
+
+            }
+            catch (Exception)
+            {
+
+                lr.IsSuccess = false;
+                lr.ErrMessage = "Server Error";
+                lr.AccessToken = null;
+                return lr;
+            }
+        }
+
+
         // to get current week appointments of doctor
         [HttpPost]
         [ActionName("GetAppointments")]

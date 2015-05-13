@@ -49,6 +49,10 @@
         <AssociationConnector Association="wfhealthdbModel.FK_UsersMaster_UsersMaster" />
         <EntityTypeShape EntityType="wfhealthdbModel.UsersDetail" Width="1.5" PointX="5.25" PointY="24.75" />
         <AssociationConnector Association="wfhealthdbModel.FK_UsersDetails_UsersMaster" />
+        <EntityTypeShape EntityType="wfhealthdbModel.LabTests_LKP" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="wfhealthdbModel.PatientsFamilyMember" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="wfhealthdbModel.Specialities_LKP" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="wfhealthdbModel.AppSetting" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

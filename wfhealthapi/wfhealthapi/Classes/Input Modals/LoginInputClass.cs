@@ -13,6 +13,8 @@ namespace wfhealthapi.Classes.Input_Modals
         public string DeviceType { get; set; }
 
         public string NotificationToken { get; set; }
+        public string FBId { get; set; }
+        public string FBeMail { get; set; }
         
     }
 }

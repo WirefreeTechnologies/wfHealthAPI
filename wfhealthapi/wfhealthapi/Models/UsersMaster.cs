@@ -59,6 +59,12 @@ namespace wfhealthapi.Models
         public string DOB { get; set; }
         public string AccessToken { get; set; }
         public Nullable<System.DateTime> LastSeenOn { get; set; }
+        public Nullable<bool> IsFBConnect { get; set; }
+        public string FbId { get; set; }
+        public string DrOfficeContact { get; set; }
+        public string DrFBUrl { get; set; }
+        public string DrTwitterUrl { get; set; }
+        public string DrGPlusUrl { get; set; }
     
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Appointment> Appointments1 { get; set; }
