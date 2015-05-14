@@ -178,6 +178,12 @@
     <EntitySetMapping Name="UsersMasters">
       <EntityTypeMapping TypeName="wfhealthdbModel.UsersMaster">
         <MappingFragment StoreEntitySet="UsersMaster">
+          <ScalarProperty Name="DrGPlusUrl" ColumnName="DrGPlusUrl" />
+          <ScalarProperty Name="DrTwitterUrl" ColumnName="DrTwitterUrl" />
+          <ScalarProperty Name="DrFBUrl" ColumnName="DrFBUrl" />
+          <ScalarProperty Name="DrOfficeContact" ColumnName="DrOfficeContact" />
+          <ScalarProperty Name="FbId" ColumnName="FbId" />
+          <ScalarProperty Name="IsFBConnect" ColumnName="IsFBConnect" />
           <ScalarProperty Name="LastSeenOn" ColumnName="LastSeenOn" />
           <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
           <ScalarProperty Name="DOB" ColumnName="DOB" />

@@ -113,6 +113,37 @@ namespace wfhealthapi.Classes.Input_Modals
 
 
 
+    public class BookAppointmentInputClass
+    {
+        public int UserId { get; set; }
+
+        public int HospitalId { get; set; }
+
+        public string AccessToken { get; set; }
+        public string DeviceType { get; set; }
+        public string NotificationToken { get; set; }
+
+        public string Lati { get; set; }
+
+        public string Longi { get; set; }
+
+        public string AptType { get; set; }
+
+        
+        public int DoctorId { get; set; }
+
+        public DateTime AppointmentDate { get; set; }
+        public string AppointmentTime { get; set; }
+        public string AppointmentReason { get; set; }
+
+        public bool IsForFamMember { get; set; }
+        public int FamMemberId { get; set; }
+
+    }
+
+
+
+
     public class GetFAmilyMembersResultClass
     {
         public AccessTokenValidationModel Access { get; set; }

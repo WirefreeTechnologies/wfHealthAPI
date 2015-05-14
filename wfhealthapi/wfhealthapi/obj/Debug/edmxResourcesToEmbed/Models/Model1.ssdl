@@ -245,6 +245,12 @@
     <Property Name="DOB" Type="varchar" MaxLength="50" />
     <Property Name="AccessToken" Type="varchar(max)" />
     <Property Name="LastSeenOn" Type="datetime" />
+    <Property Name="IsFBConnect" Type="bit" />
+    <Property Name="FbId" Type="varchar(max)" />
+    <Property Name="DrOfficeContact" Type="varchar" MaxLength="50" />
+    <Property Name="DrFBUrl" Type="varchar" MaxLength="500" />
+    <Property Name="DrTwitterUrl" Type="varchar" MaxLength="500" />
+    <Property Name="DrGPlusUrl" Type="varchar" MaxLength="500" />
   </EntityType>
   <Association Name="FK_Appointments_HospitalsMaster">
     <End Role="HospitalsMaster" Type="Self.HospitalsMaster" Multiplicity="0..1" />

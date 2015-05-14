@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects;
+using System.Data.Objects.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -449,13 +451,13 @@ namespace wfhealthapi.Controllers
                         using (wfhealthdbEntities obj = new wfhealthdbEntities())
                         {
                             var familyMemberDetail = (from c in obj.PatientsFamilyMembers
-                                where
-                                    c.IsActive == true && c.HospitalId == aptmnt.HospitalId &&
-                                    c.PatientId == aptmnt.UserId && c.Id == aptmnt.FamilyMemberId
-                                select c).SingleOrDefault();
+                                                      where
+                                                          c.IsActive == true && c.HospitalId == aptmnt.HospitalId &&
+                                                          c.PatientId == aptmnt.UserId && c.Id == aptmnt.FamilyMemberId
+                                                      select c).SingleOrDefault();
 
 
-                            if (familyMemberDetail!=null)
+                            if (familyMemberDetail != null)
                             {
                                 familyMemberDetail.IsActive = false;
                                 obj.SaveChanges();
@@ -470,8 +472,8 @@ namespace wfhealthapi.Controllers
                             }
 
                         }
-                        
-                        
+
+
                     }
 
                 }
@@ -512,10 +514,12 @@ namespace wfhealthapi.Controllers
                     //getting all family members of patient
                     using (wfhealthdbEntities obj = new wfhealthdbEntities())
                     {
-                        var allfamilyMembers  = (from c in  obj.PatientsFamilyMembers where  c.IsActive==true && c.HospitalId==aptmnt.HospitalId && c.PatientId==aptmnt.UserId select 
-                                                     
-                                                    
-                                                     c).ToList();
+                        var allfamilyMembers = (from c in obj.PatientsFamilyMembers
+                                                where c.IsActive == true && c.HospitalId == aptmnt.HospitalId && c.PatientId == aptmnt.UserId
+                                                select
+
+
+                                                    c).ToList();
 
                         List<FamillyMemberInput> mm = new List<FamillyMemberInput>();
                         foreach (PatientsFamilyMember pfm in allfamilyMembers)
@@ -536,7 +540,7 @@ namespace wfhealthapi.Controllers
 
 
                     }
-                    
+
 
                 }
                 else
@@ -679,9 +683,294 @@ namespace wfhealthapi.Controllers
         }
 
 
+        [HttpGet]
+        [ActionName("testServe")]
+        public void testServe()
+        {
+            string appointmentDayName = DateTime.Now.DayOfWeek.ToString();
+            string appointmentTimeChoosen = "9:30 AM";
+
+
+           
+            DateTime aptmntTo =
+                Convert.ToDateTime(appointmentTimeChoosen)
+                    .AddMinutes(Convert.ToInt16(Utility.GetSettingValue("AptSlot")));
+            string TimeTo = aptmntTo.ToShortTimeString();   // need to verify
+
+            //using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            //{
+
+            //    var allTimings =
+            //        (from c in obj.DoctorTimings where c.IsActive == true && c.Doctor_Id == 1 select c).ToList();
+
+            //    foreach (DoctorTiming dt in allTimings)
+            //    {
+            //        if (dt.Weekday == appointmentDayName)
+            //        {
+            //            DateTime fromTime = Convert.ToDateTime(dt.TimeFrom);
+            //            DateTime toTime = Convert.ToDateTime(dt.TimeTo);
+
+            //            DateTime giventimenTime = Convert.ToDateTime("11:30 AM");
+
+
+
+
+            //            // checking if given time lies between from and to time
+            //            if (fromTime < giventimenTime && toTime > giventimenTime)
+            //            {
+            //                string came = "";
+            //            }
+            //            else
+            //            {
+            //                string cameFalse = "";
+
+            //            }
+
+            //        }
+            //    }
+            //}
+        }
+
         // to book appointment with doctor
-        //[HttpPost]
-        //[ActionName("BookAppointment")]
-        //public 
+        [HttpPost]
+        [ActionName("BookAppointment")]
+        public AddFamilyMemberResultClass BookAppointment(BookAppointmentInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+            using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            {
+                try
+                {
+
+                    AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.UserId, aptmnt.AccessToken,
+                   aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                    res.Access = tokencheck;
+                    if (res.Access.IsTokenValid == true)
+                    {
+                        if (aptmnt.DoctorId == 0)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Doctor id not supplied.";
+                        }
+                        else
+                        {
+                            if (String.IsNullOrEmpty(aptmnt.AppointmentReason))
+                            {
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Appointment reason required.";
+                            }
+                            else
+                            {
+                                if (aptmnt.IsForFamMember == true && aptmnt.FamMemberId == 0)
+                                {
+                                    res.IsSuccess = false;
+                                    res.ErrMessage = "Family member not specified.";
+                                }
+                                else
+                                {
+                                    if (aptmnt.AppointmentDate == null)
+                                    {
+                                        res.IsSuccess = false;
+                                        res.ErrMessage = "Appointment date required.";
+                                    }
+                                    else
+                                    {
+                                        if (String.IsNullOrEmpty(aptmnt.AppointmentTime))
+                                        {
+                                            res.IsSuccess = false;
+                                            res.ErrMessage = "Appointment time required.";
+                                        }
+                                        else
+                                        {
+                                            // checking valid doctor
+
+                                            int docRoleId = Utility.GetRoleId("Doctor");
+                                            var doctorDetails = (from c in obj.UsersMasters
+                                                                 where
+                                                                     c.Role_Id == docRoleId && c.IsActive == true && c.Id == aptmnt.DoctorId
+                                                                 select c).SingleOrDefault();
+
+                                            if (doctorDetails == null)
+                                            {
+                                                res.IsSuccess = false;
+                                                res.ErrMessage = "Invalid Doctor id supplied.";
+                                                return res;
+                                            }
+
+                                            // cehcking doctor and hospital association
+                                            var docHospCheck = (from d in obj.UsersInHospitals
+                                                                where
+                                                                    d.IsActive == true && d.Hospital_Id == aptmnt.HospitalId &&
+                                                                    d.User_Id == aptmnt.DoctorId
+                                                                select d).SingleOrDefault();
+
+                                            if (docHospCheck == null)
+                                            {
+                                                res.IsSuccess = false;
+                                                res.ErrMessage = "Doctor not found in given hospital.";
+                                                return res;
+                                            }
+
+                                            // checking valid patient
+
+                                            int patRoleId = Utility.GetRoleId("Patient");
+                                            var patientDetails = (from c in obj.UsersMasters
+                                                                  where
+                                                                      c.Role_Id == patRoleId && c.IsActive == true && c.Id == aptmnt.UserId
+                                                                  select c).SingleOrDefault();
+
+                                            if (patientDetails == null)
+                                            {
+                                                res.IsSuccess = false;
+                                                res.ErrMessage = "Invalid Patient id supplied.";
+                                                return res;
+                                            }
+                                            // checking patient and hospital association
+                                            // cehcking doctor and hospital association
+                                            var patHospCheck = (from d in obj.UsersInHospitals
+                                                                where
+                                                                    d.IsActive == true && d.Hospital_Id == aptmnt.HospitalId &&
+                                                                    d.User_Id == aptmnt.UserId
+                                                                select d).SingleOrDefault();
+
+                                            if (patHospCheck == null)
+                                            {
+                                                res.IsSuccess = false;
+                                                res.ErrMessage = "Patient not found in given hospital.";
+                                                return res;
+                                            }
+
+
+                                            // if appoinemtn is for famiy member
+                                            if (aptmnt.IsForFamMember == true)
+                                            {
+                                                // checking ig given member is associated with given patient id
+                                                var famPatAssoc = (from e in obj.PatientsFamilyMembers
+                                                                   where e.IsActive == true && e.PatientId == aptmnt.UserId &&
+                                                                       e.Id == aptmnt.FamMemberId
+                                                                   select e).SingleOrDefault();
+
+                                                if (famPatAssoc == null)
+                                                {
+                                                    res.IsSuccess = false;
+                                                    res.ErrMessage = "Given family is not assosicated with given patient.";
+                                                    return res;
+                                                }
+                                            }
+                                            // checking doctor schedule
+                                            // getting day from date of appointment
+
+                                            string appointmentDayName = aptmnt.AppointmentDate.DayOfWeek.ToString();
+                                            DateTime appointmentTimeChoosen = Convert.ToDateTime(aptmnt.AppointmentTime);
+
+                                            // checking if doctor is open for given weekday and timing
+                                            var allTimings =
+                    (from c in obj.DoctorTimings where c.IsActive == true && c.Doctor_Id == aptmnt.DoctorId select c).ToList();
+
+                                            foreach (DoctorTiming dt in allTimings)
+                                            {
+                                                if (dt.Weekday == appointmentDayName)
+                                                {
+                                                    DateTime fromTime = Convert.ToDateTime(dt.TimeFrom);
+                                                    DateTime toTime = Convert.ToDateTime(dt.TimeTo);
+
+                                                    DateTime giventimenTime = Convert.ToDateTime(aptmnt.AppointmentTime);
+
+
+
+
+                                                    // checking if given time lies between from and to time
+                                                    if (fromTime < giventimenTime && toTime > giventimenTime)
+                                                    {
+                                                        // checking if doctor has any other appointment on given time
+                                                        var existingaptmntongiventime = (from a in obj.Appointments
+                                                                                         where (a.IsMeetingHeld == null || a.IsMeetingHeld == false)
+                                                                                             && (a.IsCancelledByPat == null || a.IsCancelledByPat == false)
+                                                                                             && a.AppointmentDate == aptmnt.AppointmentDate
+                                                                                             && a.TimeFrom == aptmnt.AppointmentTime
+                                                                                         select a).ToList();
+                                                        if (existingaptmntongiventime.Count == 0)
+                                                        {
+                                                            // book appointemtn here
+                                                            Appointment ap = new Appointment();
+                                                            ap.AppointmentDate = aptmnt.AppointmentDate;
+
+                                                            ap.Patient_Id = aptmnt.UserId;
+                                                            ap.AptReason = encDec.Encrypt(aptmnt.AppointmentReason);
+                                                            ap.CreatedOn = DateTime.UtcNow;
+                                                            ap.Doctor_Id = aptmnt.DoctorId;
+                                                            ap.Hospital_Id = aptmnt.HospitalId;
+                                                            ap.AptType = aptmnt.AptType;
+
+
+
+                                                            ap.TimeFrom = aptmnt.AppointmentTime;
+                                                            DateTime aptmntTo =
+                                                                Convert.ToDateTime(aptmnt.AppointmentTime)
+                                                                    .AddMinutes(Convert.ToInt16(Utility.GetSettingValue("AptSlot")));
+                                                            ap.TimeTo = aptmntTo.ToString("hh:mm tt");
+
+
+                                                            if (aptmnt.IsForFamMember == true)
+                                                            {
+                                                                ap.IsAptForFamilyMember = aptmnt.IsForFamMember;
+                                                                ap.FamilyMember_Id = aptmnt.FamMemberId;
+                                                                ap.FamilyMemberName = "";
+
+                                                            }
+
+
+
+                                                            obj.Appointments.Add(ap);
+                                                            obj.SaveChanges();
+
+                                                            res.IsSuccess = true;
+                                                            res.ErrMessage = "Appointment booked successfully.";
+                                                            return res;
+
+
+                                                        }
+                                                        else
+                                                        {
+                                                            res.IsSuccess = false;
+                                                            res.ErrMessage = "Doctor is busy on given time on given day.";
+                                                            return res;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        res.IsSuccess = false;
+                                                        res.ErrMessage = "Doctor is not available for given time on given day.";
+                                                        return res;
+
+                                                    }
+
+                                                }
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Invalid access token.";
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
+            return res;
+        }
     }
 }
