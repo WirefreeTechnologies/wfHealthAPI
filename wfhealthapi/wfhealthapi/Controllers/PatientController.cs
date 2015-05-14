@@ -916,7 +916,7 @@ namespace wfhealthapi.Controllers
                                                             {
                                                                 ap.IsAptForFamilyMember = aptmnt.IsForFamMember;
                                                                 ap.FamilyMember_Id = aptmnt.FamMemberId;
-                                                                ap.FamilyMemberName = "";
+                                                                ap.FamilyMemberName = Utility.GetFamilyMemberNameFromId(aptmnt.FamMemberId);
 
                                                             }
 

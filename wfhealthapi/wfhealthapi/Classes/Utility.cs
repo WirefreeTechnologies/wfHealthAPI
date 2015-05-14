@@ -43,6 +43,17 @@ namespace wfhealthapi.Classes
             }
 
         }
+
+        public static string GetFamilyMemberNameFromId(int id)
+        {
+            using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            {
+                return
+                    (from c in obj.PatientsFamilyMembers where c.Id == id && c.IsActive == true select c)
+                        .SingleOrDefault().Name;
+            }
+
+        }
     }
 
 }
