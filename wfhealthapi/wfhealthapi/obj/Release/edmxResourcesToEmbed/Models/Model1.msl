@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Appointments">
       <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
         <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="CancelledOn" ColumnName="CancelledOn" />
           <ScalarProperty Name="FamilyMemberName" ColumnName="FamilyMemberName" />
           <ScalarProperty Name="FamilyMember_Id" ColumnName="FamilyMember_Id" />
           <ScalarProperty Name="IsAptForFamilyMember" ColumnName="IsAptForFamilyMember" />

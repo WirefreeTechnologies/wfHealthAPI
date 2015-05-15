@@ -39,6 +39,7 @@ namespace wfhealthapi.Models
         public Nullable<bool> IsAptForFamilyMember { get; set; }
         public Nullable<int> FamilyMember_Id { get; set; }
         public string FamilyMemberName { get; set; }
+        public Nullable<System.DateTime> CancelledOn { get; set; }
     
         public virtual HospitalsMaster HospitalsMaster { get; set; }
         public virtual ICollection<PrescriptionAttachment> PrescriptionAttachments { get; set; }

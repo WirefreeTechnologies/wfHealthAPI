@@ -142,6 +142,27 @@ namespace wfhealthapi.Classes.Input_Modals
     }
 
 
+    public class CancelAppointmentInputClass
+    {
+        public userInfoInputClass user { get; set; }
+        public int AppointmentId { get; set; }
+    }
+
+
+    public class userInfoInputClass
+    {
+        public int UserId { get; set; }
+
+        public int HospitalId { get; set; }
+
+        public string AccessToken { get; set; }
+        public string DeviceType { get; set; }
+        public string NotificationToken { get; set; }
+
+        public string Lati { get; set; }
+
+        public string Longi { get; set; }
+    }
 
 
     public class GetFAmilyMembersResultClass

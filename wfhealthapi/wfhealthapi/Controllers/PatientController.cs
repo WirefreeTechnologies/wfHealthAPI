@@ -972,5 +972,72 @@ namespace wfhealthapi.Controllers
             }
             return res;
         }
+
+
+        // to cancel given appointment
+        [HttpPost]
+        [ActionName("CancelAppointment")]
+        public AddFamilyMemberResultClass CancelAppointment(CancelAppointmentInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+            using (wfhealthdbEntities obj = new wfhealthdbEntities())
+            {
+                try
+                {
+
+                    AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.user.UserId, aptmnt.user.AccessToken,
+                   aptmnt.user.Lati, aptmnt.user.Longi, aptmnt.user.DeviceType, aptmnt.user.NotificationToken);
+
+                    res.Access = tokencheck;
+                    if (res.Access.IsTokenValid == true)
+                    {
+                        // cehcking if given user exists in given hospital
+                        var userdetail = (from c in obj.UsersInHospitals where c.IsActive==true && c.Hospital_Id==aptmnt.user.HospitalId && c.User_Id==aptmnt.user.UserId select c).SingleOrDefault();
+
+                        if (userdetail!=null)
+                        {
+                            // checking if valid appointment id passed
+                            var appointmentdetails = (from c in obj.Appointments
+                                where (c.IsMeetingHeld == false || c.IsMeetingHeld == null)
+                                      && (c.IsCancelledByPat == false || c.IsCancelledByPat == null) && c.Id==aptmnt.AppointmentId
+                                select c).SingleOrDefault();
+                            if (appointmentdetails!=null)
+                            {
+                                appointmentdetails.IsCancelledByPat = true;
+                                appointmentdetails.CancelledOn = DateTime.UtcNow;
+
+                                obj.SaveChanges();
+                                // code here to send notifications to dr. and patient
+
+                                //---------code to send notification above this point
+                                res.IsSuccess = true;
+                                res.ErrMessage = "Appointment cancelled succesfully.";
+                            }
+                            else
+                            {
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Appointment not found.";
+                            }
+                        }
+                        else
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "User not found in given hospital.";
+                        }
+                    }
+                    else
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Invalid access token or user id.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Server error.";
+                }
+            }
+            return res;
+        }
     }
 }

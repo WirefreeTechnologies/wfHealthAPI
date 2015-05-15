@@ -28,6 +28,7 @@
     <Property Name="IsAptForFamilyMember" Type="Boolean" />
     <Property Name="FamilyMember_Id" Type="Int32" />
     <Property Name="FamilyMemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CancelledOn" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="DoctorTiming">
     <Key>

@@ -27,6 +27,7 @@
           <Property Name="IsAptForFamilyMember" Type="bit" />
           <Property Name="FamilyMember_Id" Type="int" />
           <Property Name="FamilyMemberName" Type="varchar" MaxLength="50" />
+          <Property Name="CancelledOn" Type="datetime" />
         </EntityType>
         <EntityType Name="AppSettings">
           <Key>
@@ -804,6 +805,7 @@
           <Property Name="IsAptForFamilyMember" Type="Boolean" />
           <Property Name="FamilyMember_Id" Type="Int32" />
           <Property Name="FamilyMemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CancelledOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DoctorTiming">
           <Key>
@@ -1614,6 +1616,7 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="wfhealthdbModel.Appointment">
               <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="CancelledOn" ColumnName="CancelledOn" />
                 <ScalarProperty Name="FamilyMemberName" ColumnName="FamilyMemberName" />
                 <ScalarProperty Name="FamilyMember_Id" ColumnName="FamilyMember_Id" />
                 <ScalarProperty Name="IsAptForFamilyMember" ColumnName="IsAptForFamilyMember" />
