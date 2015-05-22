@@ -476,7 +476,7 @@ namespace wfhealthapi.Controllers
                         res.IsSuccess = false;
                         res.ErrMessage = "Hospital id not supplied.";
                     }
-                    if (aptmnt.IsForFamMember== true)
+                    if (aptmnt.IsForFamMember == true)
                     {
                         if (aptmnt.FamMemberId == 0)
                         {
@@ -486,67 +486,67 @@ namespace wfhealthapi.Controllers
                     }
                     else
                     {
-                        
-                            if (aptmnt.UserId == 0)
-                            {
-                                res.IsSuccess = false;
-                                res.ErrMessage = "Patient id not supplied.";
-                            }
-                        
+
+                        if (aptmnt.UserId == 0)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Patient id not supplied.";
+                        }
+
                     }
 
                     // checking if prescription written is not null
                     Prescription pr = new Prescription();
-                    if (aptmnt.PrescriptionNotes.Trim().Length>0)
+                    if (aptmnt.PrescriptionNotes.Trim().Length > 0)
                     {
-                        pr.PrescriptionText = encDec.Encrypt(aptmnt.PrescriptionNotes.Trim());    
+                        pr.PrescriptionText = encDec.Encrypt(aptmnt.PrescriptionNotes.Trim());
                     }
                     else
                     {
                         pr.PrescriptionText = null;
                     }
                     pr.Appointment_Id = aptmnt.AppointmentId;
-                    pr.Hospital_Id= aptmnt.HospitalId;
-                    pr.Doctor_Id= aptmnt.DoctorId;
-                    pr.Patient_Id= aptmnt.UserId;
+                    pr.Hospital_Id = aptmnt.HospitalId;
+                    pr.Doctor_Id = aptmnt.DoctorId;
+                    pr.Patient_Id = aptmnt.UserId;
                     pr.CreatedOn = DateTime.UtcNow;
                     pr.IsArchivedByDoc = false;
-                    pr.IsArchivedByPat= false;
-                    if (aptmnt.IsForFamMember==true)
+                    pr.IsArchivedByPat = false;
+                    if (aptmnt.IsForFamMember == true)
                     {
                         pr.IsForFamilyMember = true;
-                        pr.FamilyMemberId= aptmnt.FamMemberId;    
+                        pr.FamilyMemberId = aptmnt.FamMemberId;
                     }
                     else
                     {
                         pr.FamilyMemberId = null;
                         pr.IsForFamilyMember = false;
                     }
-                    using (wfhealthdbEntities obj= new wfhealthdbEntities())
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
                     {
                         obj.Prescriptions.Add(pr);
                         obj.SaveChanges();
 
 
                         // checking attachments and saving in db
-                        if (aptmnt.PrescriptionAttachments.Count>0)
+                        if (aptmnt.PrescriptionAttachments.Count > 0)
                         {
                             foreach (PrescriptopmImageClass pic in aptmnt.PrescriptionAttachments)
                             {
-                                if (pic.PrescriptionImg.Length>0)
+                                if (pic.PrescriptionImg.Length > 0)
                                 {
                                     PrescriptionAttachment pa = new PrescriptionAttachment();
                                     pa.DocPath = pic.PrescriptionImg.Trim();
                                     pa.CreatedOn = DateTime.UtcNow;
-                                    pa.Appointment_Id= aptmnt.AppointmentId;
-                                    pa.Doctor_Id= aptmnt.DoctorId;
-                                    pa.Patient_Id= aptmnt.UserId;
+                                    pa.Appointment_Id = aptmnt.AppointmentId;
+                                    pa.Doctor_Id = aptmnt.DoctorId;
+                                    pa.Patient_Id = aptmnt.UserId;
 
-                                    pa.Hospital_Id= aptmnt.HospitalId;
-                                    pa.IsActive= true;
-                                    if (pic.attachementNotes.Trim().Length>0)
+                                    pa.Hospital_Id = aptmnt.HospitalId;
+                                    pa.IsActive = true;
+                                    if (pic.attachementNotes.Trim().Length > 0)
                                     {
-                                        pa.Docsummary = encDec.Encrypt( pic.attachementNotes.Trim());    
+                                        pa.Docsummary = encDec.Encrypt(pic.attachementNotes.Trim());
                                     }
                                     else
                                     {
@@ -558,13 +558,13 @@ namespace wfhealthapi.Controllers
                                     obj.SaveChanges();
 
                                 }
-                                
+
                             }
                         }
 
                     }
                     res.IsSuccess = true;
-                    res.ErrMessage= "Prescription saved successfully.";
+                    res.ErrMessage = "Prescription saved successfully.";
 
                 }
                 return res;

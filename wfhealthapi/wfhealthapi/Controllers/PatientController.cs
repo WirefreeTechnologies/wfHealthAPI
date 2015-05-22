@@ -496,7 +496,6 @@ namespace wfhealthapi.Controllers
         }
 
 
-
         // to get all family members of patient
         [HttpPost]
         [ActionName("GetAllFamilyMembers")]
@@ -691,7 +690,7 @@ namespace wfhealthapi.Controllers
             string appointmentTimeChoosen = "9:30 AM";
 
 
-           
+
             DateTime aptmntTo =
                 Convert.ToDateTime(appointmentTimeChoosen)
                     .AddMinutes(Convert.ToInt16(Utility.GetSettingValue("AptSlot")));
@@ -992,16 +991,16 @@ namespace wfhealthapi.Controllers
                     if (res.Access.IsTokenValid == true)
                     {
                         // cehcking if given user exists in given hospital
-                        var userdetail = (from c in obj.UsersInHospitals where c.IsActive==true && c.Hospital_Id==aptmnt.user.HospitalId && c.User_Id==aptmnt.user.UserId select c).SingleOrDefault();
+                        var userdetail = (from c in obj.UsersInHospitals where c.IsActive == true && c.Hospital_Id == aptmnt.user.HospitalId && c.User_Id == aptmnt.user.UserId select c).SingleOrDefault();
 
-                        if (userdetail!=null)
+                        if (userdetail != null)
                         {
                             // checking if valid appointment id passed
                             var appointmentdetails = (from c in obj.Appointments
-                                where (c.IsMeetingHeld == false || c.IsMeetingHeld == null)
-                                      && (c.IsCancelledByPat == false || c.IsCancelledByPat == null) && c.Id==aptmnt.AppointmentId
-                                select c).SingleOrDefault();
-                            if (appointmentdetails!=null)
+                                                      where (c.IsMeetingHeld == false || c.IsMeetingHeld == null)
+                                                            && (c.IsCancelledByPat == false || c.IsCancelledByPat == null) && c.Id == aptmnt.AppointmentId
+                                                      select c).SingleOrDefault();
+                            if (appointmentdetails != null)
                             {
                                 appointmentdetails.IsCancelledByPat = true;
                                 appointmentdetails.CancelledOn = DateTime.UtcNow;
