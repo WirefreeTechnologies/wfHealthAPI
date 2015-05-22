@@ -141,6 +141,38 @@ namespace wfhealthapi.Classes.Input_Modals
 
     }
 
+    public class WritePrescriptionInputClass
+    {
+        public int UserId { get; set; }
+
+        public int HospitalId { get; set; }
+        public int AppointmentId { get; set; }
+
+        public string AccessToken { get; set; }
+        public string DeviceType { get; set; }
+        public string NotificationToken { get; set; }
+
+        public string Lati { get; set; }
+
+        public string Longi { get; set; }
+        public string PrescriptionNotes { get; set; }
+
+        
+        public int DoctorId { get; set; }
+
+        
+        public bool IsForFamMember { get; set; }
+        public int FamMemberId { get; set; }
+
+        public List<PrescriptopmImageClass> PrescriptionAttachments { get; set; }
+
+    }
+
+    public class PrescriptopmImageClass
+    {
+        public string PrescriptionImg { get; set; }
+        public string attachementNotes { get; set; }
+    }
 
     public class CancelAppointmentInputClass
     {

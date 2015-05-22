@@ -126,6 +126,8 @@
     <NavigationProperty Name="PrescriptionAttachments" Relationship="Self.FK_PrescriptionAttachments_Prescriptions" FromRole="Prescriptions" ToRole="PrescriptionAttachments" />
     <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_Prescriptions_UsersMaster" FromRole="Prescription" ToRole="UsersMaster" />
     <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_Prescriptions_UsersMaster1" FromRole="Prescription" ToRole="UsersMaster" />
+    <Property Name="IsForFamilyMember" Type="Boolean" />
+    <Property Name="FamilyMemberId" Type="Int32" />
   </EntityType>
   <EntityType Name="ReferralsSentByDoctor">
     <Key>

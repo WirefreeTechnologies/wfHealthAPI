@@ -22,7 +22,7 @@ namespace wfhealthapi.Controllers
         public LoginResultClass Login(LoginInputClass User)
         {
             LoginResultClass lr = new LoginResultClass();
-           
+
             try
             {
                 using (wfhealthdbEntities obj = new wfhealthdbEntities())
@@ -162,7 +162,7 @@ namespace wfhealthapi.Controllers
                             else
                             {
                                 // got everything going in for validation
-                               
+
 
                                 var UserRecord =
                                     (from c in obj.UsersMasters
@@ -392,7 +392,7 @@ namespace wfhealthapi.Controllers
 
 
 
-                                                  where c.Role_Id == roleid  && d.Hospital_Id == aptmnt.HospitalId && d.IsActive == true
+                                                  where c.Role_Id == roleid && d.Hospital_Id == aptmnt.HospitalId && d.IsActive == true
                                                   select new PatientProfileOutputClass
                                                   {
                                                       PatientEmail = c.eMail,
@@ -451,5 +451,134 @@ namespace wfhealthapi.Controllers
 
 
         }
+
+        [HttpPost]
+        [ActionName("WritePrescription")]
+        public AddFamilyMemberResultClass WritePrescription(WritePrescriptionInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.DoctorId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (aptmnt.DoctorId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Doctor id not supplied.";
+                    }
+                    if (aptmnt.HospitalId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Hospital id not supplied.";
+                    }
+                    if (aptmnt.IsForFamMember== true)
+                    {
+                        if (aptmnt.FamMemberId == 0)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Family Member id not supplied.";
+                        }
+                    }
+                    else
+                    {
+                        
+                            if (aptmnt.UserId == 0)
+                            {
+                                res.IsSuccess = false;
+                                res.ErrMessage = "Patient id not supplied.";
+                            }
+                        
+                    }
+
+                    // checking if prescription written is not null
+                    Prescription pr = new Prescription();
+                    if (aptmnt.PrescriptionNotes.Trim().Length>0)
+                    {
+                        pr.PrescriptionText = encDec.Encrypt(aptmnt.PrescriptionNotes.Trim());    
+                    }
+                    else
+                    {
+                        pr.PrescriptionText = null;
+                    }
+                    pr.Appointment_Id = aptmnt.AppointmentId;
+                    pr.Hospital_Id= aptmnt.HospitalId;
+                    pr.Doctor_Id= aptmnt.DoctorId;
+                    pr.Patient_Id= aptmnt.UserId;
+                    pr.CreatedOn = DateTime.UtcNow;
+                    pr.IsArchivedByDoc = false;
+                    pr.IsArchivedByPat= false;
+                    if (aptmnt.IsForFamMember==true)
+                    {
+                        pr.IsForFamilyMember = true;
+                        pr.FamilyMemberId= aptmnt.FamMemberId;    
+                    }
+                    else
+                    {
+                        pr.FamilyMemberId = null;
+                        pr.IsForFamilyMember = false;
+                    }
+                    using (wfhealthdbEntities obj= new wfhealthdbEntities())
+                    {
+                        obj.Prescriptions.Add(pr);
+                        obj.SaveChanges();
+
+
+                        // checking attachments and saving in db
+                        if (aptmnt.PrescriptionAttachments.Count>0)
+                        {
+                            foreach (PrescriptopmImageClass pic in aptmnt.PrescriptionAttachments)
+                            {
+                                if (pic.PrescriptionImg.Length>0)
+                                {
+                                    PrescriptionAttachment pa = new PrescriptionAttachment();
+                                    pa.DocPath = pic.PrescriptionImg.Trim();
+                                    pa.CreatedOn = DateTime.UtcNow;
+                                    pa.Appointment_Id= aptmnt.AppointmentId;
+                                    pa.Doctor_Id= aptmnt.DoctorId;
+                                    pa.Patient_Id= aptmnt.UserId;
+
+                                    pa.Hospital_Id= aptmnt.HospitalId;
+                                    pa.IsActive= true;
+                                    if (pic.attachementNotes.Trim().Length>0)
+                                    {
+                                        pa.Docsummary = encDec.Encrypt( pic.attachementNotes.Trim());    
+                                    }
+                                    else
+                                    {
+                                        pa.Docsummary = null;
+                                    }
+                                    pa.Prescription_Id = pr.Id;
+
+                                    obj.PrescriptionAttachments.Add(pa);
+                                    obj.SaveChanges();
+
+                                }
+                                
+                            }
+                        }
+
+                    }
+                    res.IsSuccess = true;
+                    res.ErrMessage= "Prescription saved successfully.";
+
+                }
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = "Server Error";
+                return res;
+            }
+
+
+        }
+
+
     }
 }

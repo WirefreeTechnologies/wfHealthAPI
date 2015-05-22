@@ -220,7 +220,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="bin/wfhealthapi.dll">
-      <publishTime>05/15/2015 16:16:11</publishTime>
+      <publishTime>05/22/2015 11:35:10</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>05/05/2015 13:16:45</publishTime>
@@ -313,7 +313,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/05/2015 13:16:45</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/15/2015 16:16:12</publishTime>
+      <publishTime>05/22/2015 11:35:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -131,6 +131,8 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="IsArchivedByDoc" Type="bit" />
     <Property Name="IsArchivedByPat" Type="bit" />
+    <Property Name="IsForFamilyMember" Type="bit" />
+    <Property Name="FamilyMemberId" Type="int" />
   </EntityType>
   <EntityType Name="ReferralsSentByDoctors">
     <Key>

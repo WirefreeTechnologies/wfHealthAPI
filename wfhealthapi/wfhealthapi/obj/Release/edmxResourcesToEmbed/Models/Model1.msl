@@ -94,6 +94,8 @@
     <EntitySetMapping Name="Prescriptions">
       <EntityTypeMapping TypeName="wfhealthdbModel.Prescription">
         <MappingFragment StoreEntitySet="Prescriptions">
+          <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
+          <ScalarProperty Name="IsForFamilyMember" ColumnName="IsForFamilyMember" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Appointment_Id" ColumnName="Appointment_Id" />
           <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />

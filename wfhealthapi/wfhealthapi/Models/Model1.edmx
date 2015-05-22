@@ -136,6 +136,8 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="IsArchivedByDoc" Type="bit" />
           <Property Name="IsArchivedByPat" Type="bit" />
+          <Property Name="IsForFamilyMember" Type="bit" />
+          <Property Name="FamilyMemberId" Type="int" />
         </EntityType>
         <EntityType Name="ReferralsSentByDoctors">
           <Key>
@@ -903,6 +905,8 @@
           <NavigationProperty Name="PrescriptionAttachments" Relationship="Self.FK_PrescriptionAttachments_Prescriptions" FromRole="Prescriptions" ToRole="PrescriptionAttachments" />
           <NavigationProperty Name="UsersMaster" Relationship="wfhealthdbModel.FK_Prescriptions_UsersMaster" FromRole="Prescription" ToRole="UsersMaster" />
           <NavigationProperty Name="UsersMaster1" Relationship="wfhealthdbModel.FK_Prescriptions_UsersMaster1" FromRole="Prescription" ToRole="UsersMaster" />
+          <Property Name="IsForFamilyMember" Type="Boolean" />
+          <Property Name="FamilyMemberId" Type="Int32" />
           </EntityType>
         <EntityType Name="ReferralsSentByDoctor">
           <Key>
@@ -1706,6 +1710,8 @@
           <EntitySetMapping Name="Prescriptions">
             <EntityTypeMapping TypeName="wfhealthdbModel.Prescription">
               <MappingFragment StoreEntitySet="Prescriptions">
+                <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
+                <ScalarProperty Name="IsForFamilyMember" ColumnName="IsForFamilyMember" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Appointment_Id" ColumnName="Appointment_Id" />
                 <ScalarProperty Name="Hospital_Id" ColumnName="Hospital_Id" />
