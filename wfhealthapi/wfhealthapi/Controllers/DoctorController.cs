@@ -512,6 +512,7 @@ namespace wfhealthapi.Controllers
                     pr.CreatedOn = DateTime.UtcNow;
                     pr.IsArchivedByDoc = false;
                     pr.IsArchivedByPat = false;
+                    pr.IsDeleted = false;
                     if (aptmnt.IsForFamMember == true)
                     {
                         pr.IsForFamilyMember = true;
@@ -632,7 +633,7 @@ namespace wfhealthapi.Controllers
                     using (wfhealthdbEntities obj = new wfhealthdbEntities())
                     {
                         // getting prescription from db
-                        var pr = (from p in obj.Prescriptions where p.Id == aptmnt.PrescriptionId select p).SingleOrDefault();
+                        var pr = (from p in obj.Prescriptions where p.Id == aptmnt.PrescriptionId && (p.IsDeleted == null || p.IsDeleted == false) select p).SingleOrDefault();
 
                         if (pr == null)
                         {
@@ -640,29 +641,29 @@ namespace wfhealthapi.Controllers
                             res.ErrMessage = "Given presecription not found.";
                             return res;
                         }
-                        
-                    // checking if prescription written is not null
-                 
-                    pr.PrescriptionText = aptmnt.PrescriptionNotes.Trim().Length > 0 ? encDec.Encrypt(aptmnt.PrescriptionNotes.Trim()) : null;
-                    pr.Appointment_Id = aptmnt.AppointmentId;
-                    pr.Hospital_Id = aptmnt.HospitalId;
-                    pr.Doctor_Id = aptmnt.DoctorId;
-                    pr.Patient_Id = aptmnt.UserId;
-                    pr.CreatedOn = DateTime.UtcNow;
-                    pr.IsArchivedByDoc = false;
-                    pr.IsArchivedByPat = false;
-                    if (aptmnt.IsForFamMember == true)
-                    {
-                        pr.IsForFamilyMember = true;
-                        pr.FamilyMemberId = aptmnt.FamMemberId;
-                    }
-                    else
-                    {
-                        pr.FamilyMemberId = null;
-                        pr.IsForFamilyMember = false;
-                    }
-                  
-                        obj.Prescriptions.Add(pr);
+
+                        // checking if prescription written is not null
+
+                        pr.PrescriptionText = aptmnt.PrescriptionNotes.Trim().Length > 0 ? encDec.Encrypt(aptmnt.PrescriptionNotes.Trim()) : null;
+                        pr.Appointment_Id = aptmnt.AppointmentId;
+                        pr.Hospital_Id = aptmnt.HospitalId;
+                        pr.Doctor_Id = aptmnt.DoctorId;
+                        pr.Patient_Id = aptmnt.UserId;
+                        pr.CreatedOn = DateTime.UtcNow;
+                        pr.IsArchivedByDoc = false;
+                        pr.IsArchivedByPat = false;
+                        if (aptmnt.IsForFamMember == true)
+                        {
+                            pr.IsForFamilyMember = true;
+                            pr.FamilyMemberId = aptmnt.FamMemberId;
+                        }
+                        else
+                        {
+                            pr.FamilyMemberId = null;
+                            pr.IsForFamilyMember = false;
+                        }
+
+                     
                         obj.SaveChanges();
 
 
@@ -671,9 +672,45 @@ namespace wfhealthapi.Controllers
                         {
                             foreach (PrescriptopmImageClass pic in aptmnt.PrescriptionAttachments)
                             {
-                                if (pic.PrescriptionImg.Length > 0)
+                                if (pic.PrescriptionImg.Length > 0 && pic.AttachmentId > 0)
+                                {
+                                    var pa =
+                                        (from t in obj.PrescriptionAttachments
+                                         where t.IsActive == true && t.Id == pic.AttachmentId
+                                         select t).SingleOrDefault();
+                                    if (pa != null)
+                                    {
+
+
+                                        pa.DocPath = pic.PrescriptionImg.Trim();
+                                        pa.CreatedOn = DateTime.UtcNow;
+                                        pa.Appointment_Id = aptmnt.AppointmentId;
+                                        pa.Doctor_Id = aptmnt.DoctorId;
+                                        pa.Patient_Id = aptmnt.UserId;
+
+                                        pa.Hospital_Id = aptmnt.HospitalId;
+                                        pa.IsActive = true;
+                                        if (pic.attachementNotes.Trim().Length > 0)
+                                        {
+                                            pa.Docsummary = encDec.Encrypt(pic.attachementNotes.Trim());
+                                        }
+                                        else
+                                        {
+                                            pa.Docsummary = null;
+                                        }
+                                        pa.Prescription_Id = pr.Id;
+
+                                       
+                                        obj.SaveChanges();
+                                    }
+
+                                }
+                                if (pic.PrescriptionImg.Length > 0 && pic.AttachmentId == 0)
                                 {
                                     PrescriptionAttachment pa = new PrescriptionAttachment();
+
+
+
                                     pa.DocPath = pic.PrescriptionImg.Trim();
                                     pa.CreatedOn = DateTime.UtcNow;
                                     pa.Appointment_Id = aptmnt.AppointmentId;
@@ -695,8 +732,8 @@ namespace wfhealthapi.Controllers
                                     obj.PrescriptionAttachments.Add(pa);
                                     obj.SaveChanges();
 
-                                }
 
+                                }
                             }
                         }
 
@@ -718,6 +755,156 @@ namespace wfhealthapi.Controllers
         }
 
 
+        // to mark given prescription as archive
+        [HttpPost]
+        [ActionName("ArchivePrescription")]
+        public AddFamilyMemberResultClass ArchivePrescription(WritePrescriptionInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.DoctorId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (aptmnt.DoctorId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Doctor id not supplied.";
+                    }
+                    if (aptmnt.HospitalId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Hospital id not supplied.";
+                    }
+                    if (aptmnt.PrescriptionId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Prescription id not supplied.";
+                    }
+
+
+
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                    {
+                        // getting prescription from db
+                        var pr = (from p in obj.Prescriptions where p.Id == aptmnt.PrescriptionId && (p.IsArchivedByDoc == false || p.IsArchivedByDoc == null) && (p.IsDeleted == false || p.IsDeleted == null) select p).SingleOrDefault();
+
+                        if (pr == null)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Given presecription not found.";
+                            return res;
+                        }
+
+                        pr.IsArchivedByDoc = true;
+                        obj.SaveChanges();
+
+                    }
+                    res.IsSuccess = true;
+                    res.ErrMessage = "Prescription saved successfully.";
+
+                }
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = "Server Error";
+                return res;
+            }
+
+
+        }
+
+
+        // to delete given prescription
+
+        [HttpPost]
+        [ActionName("DeletePrescription")]
+        public AddFamilyMemberResultClass DeletePrescription(WritePrescriptionInputClass aptmnt)
+        {
+            AddFamilyMemberResultClass res = new AddFamilyMemberResultClass();
+
+            try
+            {
+                AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.DoctorId, aptmnt.AccessToken,
+                    aptmnt.Lati, aptmnt.Longi, aptmnt.DeviceType, aptmnt.NotificationToken);
+
+                res.Access = tokencheck;
+                if (res.Access.IsTokenValid == true)
+                {
+                    if (aptmnt.DoctorId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Doctor id not supplied.";
+                    }
+                    if (aptmnt.HospitalId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Hospital id not supplied.";
+                    }
+                    if (aptmnt.PrescriptionId == 0)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Prescription id not supplied.";
+                    }
+
+
+
+                    using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                    {
+                        // getting prescription from db
+                        var pr = (from p in obj.Prescriptions where p.Id == aptmnt.PrescriptionId && (p.IsArchivedByDoc == false || p.IsArchivedByDoc == null) && (p.IsDeleted == false || p.IsDeleted == null) select p).SingleOrDefault();
+
+                        if (pr == null)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "Given presecription not found.";
+                            return res;
+                        }
+
+                        pr.IsArchivedByDoc = true;
+                        pr.IsDeleted= true;
+                        obj.SaveChanges();
+
+
+
+                        // removing prescription attachments also
+                        var allattachments =
+                            (from d in obj.PrescriptionAttachments
+                                where d.Prescription_Id == aptmnt.PrescriptionId && d.IsActive == true
+                                select d).ToList();
+
+                        foreach (PrescriptionAttachment pa in allattachments)
+                        {
+                            pa.IsActive = false;
+                            obj.SaveChanges();
+                        }
+
+                    }
+
+
+
+
+                    res.IsSuccess = true;
+                    res.ErrMessage = "Prescription deleted successfully.";
+
+                }
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = "Server Error";
+                return res;
+            }
+
+
+        }
 
 
     }

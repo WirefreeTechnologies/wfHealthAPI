@@ -172,6 +172,7 @@ namespace wfhealthapi.Classes.Input_Modals
     public class PrescriptopmImageClass
     {
         public string PrescriptionImg { get; set; }
+        public int AttachmentId { get; set; }
         public string attachementNotes { get; set; }
     }
 

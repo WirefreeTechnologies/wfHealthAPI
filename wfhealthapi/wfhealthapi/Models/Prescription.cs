@@ -30,6 +30,7 @@ namespace wfhealthapi.Models
         public Nullable<bool> IsArchivedByPat { get; set; }
         public Nullable<bool> IsForFamilyMember { get; set; }
         public Nullable<int> FamilyMemberId { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Appointment Appointment { get; set; }
         public virtual HospitalsMaster HospitalsMaster { get; set; }
