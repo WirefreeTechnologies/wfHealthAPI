@@ -147,6 +147,7 @@ namespace wfhealthapi.Classes.Input_Modals
 
         public int HospitalId { get; set; }
         public int AppointmentId { get; set; }
+        public int PrescriptionId { get; set; }
 
         public string AccessToken { get; set; }
         public string DeviceType { get; set; }
