@@ -1038,5 +1038,125 @@ namespace wfhealthapi.Controllers
             }
             return res;
         }
+
+
+        // to get prescriptions written with appointment
+        [HttpPost]
+        [ActionName("GetAppointmentPrescriptions")]
+        public GetPrescriptionResultClass GetAppointmentPrescriptions(CancelAppointmentInputClass aptmnt)
+        {
+            GetPrescriptionResultClass res = new GetPrescriptionResultClass();
+
+            try
+            {
+
+                if (aptmnt.user.HospitalId == 0)
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Hospital id not supplied.";
+                    return res;
+
+                }
+                if (aptmnt.AppointmentId == 0)
+                {
+                    res.IsSuccess = false;
+                    res.ErrMessage = "Appointment id not supplied.";
+                    return res;
+                }
+
+                using (wfhealthdbEntities obj = new wfhealthdbEntities())
+                {
+                    AccessTokenValidationModel tokencheck = TokAuth.IsAccessTokenValid(aptmnt.user.UserId, aptmnt.user.AccessToken,
+                aptmnt.user.Lati, aptmnt.user.Longi, aptmnt.user.DeviceType, aptmnt.user.NotificationToken);
+
+                    res.Access = tokencheck;
+                    if (res.Access.IsTokenValid == true)
+                    {
+                        var userdetail = (from c in obj.UsersInHospitals where c.IsActive == true && c.Hospital_Id == aptmnt.user.HospitalId && c.User_Id == aptmnt.user.UserId select c).SingleOrDefault();
+                        if (userdetail != null)
+                        {
+                            // checking for given appointment
+                            var appointmentdetails = (from c in obj.Appointments
+                                                      where c.Id == aptmnt.AppointmentId
+                                                      select c).SingleOrDefault();
+
+                            if (appointmentdetails != null)
+                            {
+                                // getting prescriptions for given appoiment
+                                List<PrescriptionOutputInternal> prescriptionsToReturn = new List<PrescriptionOutputInternal>();
+                                var allprescriptions = (from c in obj.Prescriptions
+                                                        where
+                                                            c.Appointment_Id == aptmnt.AppointmentId &&
+                                                            c.Hospital_Id == aptmnt.user.HospitalId && c.Patient_Id == aptmnt.user.UserId
+                                                            && c.IsDeleted == false &&
+                                                            (c.IsArchivedByPat == false || c.IsArchivedByPat == null)
+                                                        select c).ToList();
+                                foreach (Prescription p in allprescriptions)
+                                {
+                                    PrescriptionOutputInternal p1 = new PrescriptionOutputInternal();
+                                    p1.IsForFamMember = p.IsForFamilyMember ?? false;
+                                    p1.PrescriptionId = p.Id;
+                                    if (p.FamilyMemberId != null && p.FamilyMemberId>0)
+                                    {
+
+                                        p1.FamMemberId = Convert.ToInt16(p.FamilyMemberId);
+                                    }
+                                    
+                                    p1.WrittenOn = p.CreatedOn;
+
+                                    p1.PrescriptionNotes = encDec.Decrypt(p.PrescriptionText);
+                                    // getting attachments with given prescription
+                                    List<PrescriptopmImageClass> PrescriptionAttachments = new List<PrescriptopmImageClass>();
+                                    var allpattachments = (from c in obj.PrescriptionAttachments
+                                                           where c.Prescription_Id == p.Id && (c.IsActive == true || c.IsActive == null)
+                                                                 && c.Hospital_Id == aptmnt.user.HospitalId &&
+                                                                 c.Doctor_Id == aptmnt.user.UserId
+                                                           select c).ToList();
+                                    foreach (PrescriptionAttachment v in allpattachments)
+                                    {
+                                        PrescriptopmImageClass pic = new PrescriptopmImageClass();
+                                        pic.AttachmentId = v.Id;
+                                        pic.attachementNotes = encDec.Decrypt(v.Docsummary);
+                                        pic.PrescriptionImg = v.DocPath;
+                                        PrescriptionAttachments.Add(pic);
+                                    }
+                                    p1.PrescriptionAttachments = PrescriptionAttachments;
+                                    prescriptionsToReturn.Add(p1);
+
+
+                                }
+
+                                // adding final result into response
+                                res.IsSuccess = true;
+                                res.ErrMessage = "OK";
+                                res.prescriptions = prescriptionsToReturn;
+
+                            }
+                            else
+                            {
+                                res.IsSuccess = false;
+                                res.ErrMessage = "No record found for given appoinment id.";
+                            }
+                        }
+                        else
+                        {
+                            res.IsSuccess = false;
+                            res.ErrMessage = "User not found in given hospital.";
+                        }
+                    }
+                    else
+                    {
+                        res.IsSuccess = false;
+                        res.ErrMessage = "Invalid access token or user id.";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                res.IsSuccess = false;
+                res.ErrMessage = "Server Error.";
+            }
+            return res;
+        }
     }
 }
